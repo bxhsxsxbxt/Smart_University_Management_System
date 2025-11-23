@@ -1,5 +1,4 @@
 # Smart_University_Management_System
-#  SAD Project – University Platform (Phase 1)
 
 ##  عنوان پروژه
 
