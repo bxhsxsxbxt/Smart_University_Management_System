@@ -1,0 +1,1260 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Noor University - Portal</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Georgia", "Times New Roman", serif;
+        background-color: #000;
+        color: #fff;
+        min-height: 100vh;
+        line-height: 1.6;
+      }
+
+      /* Navigation */
+      nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        background-color: rgba(0, 0, 0, 0.95);
+        padding: 20px 60px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        z-index: 1000;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .logo-container {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+      }
+
+      .logo-container img {
+        width: 65px;
+        height: auto;
+      }
+
+      .logo {
+        width: 50px;
+        height: 50px;
+        background: #fff;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        color: #000;
+        font-size: 24px;
+      }
+
+      .logo-text {
+        display: flex;
+        flex-direction: column;
+        font-size: 11px;
+        line-height: 1.3;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      .nav-menu {
+        display: flex;
+        gap: 35px;
+        align-items: center;
+      }
+
+      .nav-menu a {
+        color: #fff;
+        text-decoration: none;
+        font-size: 14px;
+        transition: color 0.3s ease;
+        font-family: Arial, sans-serif;
+      }
+
+      .nav-menu a:hover {
+        color: #00611a;
+      }
+
+      .social-icons {
+        display: flex;
+        gap: 12px;
+      }
+
+      .social-icons a {
+        width: 28px;
+        height: 28px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        text-decoration: none;
+        font-size: 13px;
+        transition: all 0.3s ease;
+      }
+
+      .social-icons a:hover {
+        background: #007a21;
+      }
+
+      /* Pages */
+      .page {
+        display: none;
+        animation: fadeIn 0.6s ease;
+      }
+
+      .page.active {
+        display: block;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+
+      /* Hero Section */
+      .hero-section {
+        position: relative;
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+      }
+
+      .hero-image {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .hero-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          180deg,
+          rgba(0, 0, 0, 0.3) 0%,
+          rgba(0, 0, 0, 0.6) 100%
+        );
+      }
+
+      .hero-content {
+        position: relative;
+        text-align: center;
+        z-index: 1;
+        padding: 40px;
+      }
+
+      .state-college-badge {
+        width: 120px;
+        height: 120px;
+        margin: 0 auto 30px;
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+      }
+
+      .badge-inner {
+        text-align: center;
+        color: #000;
+      }
+
+      .badge-inner .icon {
+        width: 155px;
+        height: 155px;
+      }
+
+      .badge-inner .icon img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+      }
+
+      .university-name {
+        font-size: 64px;
+        font-weight: 400;
+        color: #fff;
+        margin-bottom: 15px;
+        letter-spacing: 2px;
+        text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.8);
+        margin-top: -25px;
+      }
+
+      .university-tagline {
+        font-size: 16px;
+        color: #fff;
+        text-transform: uppercase;
+        letter-spacing: 3px;
+        font-weight: 300;
+        margin-bottom: 60px;
+        font-family: Arial, sans-serif;
+        margin-top: -15px;
+      }
+
+      /* Feature Cards */
+      .feature-cards {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 30px;
+        max-width: 1100px;
+        margin: -210px auto 0;
+        padding: 0 30px;
+        position: relative;
+        z-index: 2;
+      }
+
+      .feature-card {
+        background: rgba(0, 0, 0, 0.9);
+        border: 1px solid rgba(0, 0, 0, 0.2);
+        padding: 5px 30px;
+        text-align: center;
+        transition: all 0.3s ease;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.7);
+        cursor: pointer;
+      }
+
+      .feature-card:hover {
+        background: rgba(0, 15, 2, 0.95);
+        box-shadow: 0 10px 30px rgba(2, 67, 12, 0.378);
+        transform: translateY(-5px);
+      }
+
+      .feature-icon {
+        font-size: 10px;
+        margin-bottom: 0px;
+      }
+
+      .feature-icon img {
+        width: 80px;
+        height: 80px;
+        object-fit: contain;
+      }
+
+      .feature-title {
+        font-size: 16px;
+        font-weight: bold;
+        text-transform: uppercase;
+        margin-bottom: 8px;
+        letter-spacing: 1px;
+        font-family: Arial, sans-serif;
+      }
+
+      .feature-description {
+        font-size: 13px;
+        color: #ccc;
+        line-height: 1.6;
+        font-family: Arial, sans-serif;
+      }
+
+      /* About Section */
+      .about-section {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        max-width: 1200px;
+        margin: 50px auto;
+        background: #000;
+      }
+
+      .about-content {
+        padding: 40px 50px 40px 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        margin-left: 10px;
+      }
+
+      .about-label {
+        font-size: 11px;
+        color: #888;
+        margin-bottom: 15px;
+        font-family: Arial, sans-serif;
+      }
+
+      .about-title {
+        font-size: 32px;
+        font-weight: 400;
+        margin-bottom: 20px;
+        letter-spacing: 1px;
+      }
+
+      .about-text {
+        font-size: 13px;
+        color: #ccc;
+        line-height: 1.6;
+        margin-bottom: 15px;
+        font-family: Arial, sans-serif;
+      }
+
+      .about-image {
+        width: 500px;
+        margin-right: 0px;
+        object-fit: cover;
+        border-radius: 12px;
+        margin-left: 130px;
+      }
+
+      /* Auth Pages - Same background as landing page */
+      /* Auth Pages - Same background as landing page */
+      #signup,
+      #login {
+        background: transparent;
+        min-height: 100vh;
+        overflow-x: hidden;
+        position: relative;
+      }
+
+      .auth-background {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: url("https://images.unsplash.com/photo-1562774053-701939374585?w=1600&q=80");
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        z-index: -2;
+        display: none;
+      }
+
+      .auth-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          180deg,
+          rgba(0, 0, 0, 0.45) 0%,
+          rgba(0, 0, 0, 0.7) 100%
+        );
+        z-index: -1;
+        display: none;
+      }
+
+      .auth-container {
+        max-width: 550px;
+        max-height: 850px;
+        margin: 40px auto;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 24px;
+        padding: 40px;
+        backdrop-filter: blur(10px);
+        position: relative;
+        z-index: 1;
+      }
+
+      .auth-header {
+        text-align: center;
+        margin-bottom: 30px;
+      }
+
+      .auth-header h2 {
+        font-size: 32px;
+        margin-bottom: 10px;
+      }
+
+      .auth-header p {
+        color: #ccc;
+        font-size: 14px;
+      }
+
+      .form-group {
+        margin-bottom: 20px;
+      }
+
+      .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        font-size: 14px;
+        font-weight: 500;
+        color: #fff;
+      }
+
+      .form-group input,
+      .form-group select {
+        width: 100%;
+        padding: 14px 16px;
+        background: rgba(255, 255, 255, 0.05);
+        border: 2px solid rgba(255, 255, 255, 0.1);
+        border-radius: 12px;
+        color: #fff;
+        font-size: 15px;
+        transition: all 0.3s ease;
+      }
+
+      .form-group input:focus,
+      .form-group select:focus {
+        outline: none;
+        border-color: #1b7b35;
+        background: rgba(255, 255, 255, 0.08);
+        box-shadow: 0 0 0 4px rgba(27, 123, 53, 0.1);
+      }
+
+      .form-group select option {
+        background: #000;
+        color: #fff;
+      }
+
+      .btn {
+        padding: 15px 40px;
+        border: none;
+        font-size: 13px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-block;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        font-family: Arial, sans-serif;
+        border-radius: 12px;
+      }
+
+      .btn-primary {
+        background: #1b7b35;
+        color: #fff;
+      }
+
+      .btn-primary:hover {
+        background: #389454;
+        transform: translateY(-2px);
+      }
+
+      .btn-full {
+        width: 100%;
+        padding: 18px;
+        font-size: 14px;
+        margin-top: 15px;
+        border-radius: 12px;
+      }
+
+      .auth-links {
+        text-align: center;
+        margin-top: 30px;
+        padding-top: 30px;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .auth-links a {
+        color: #b3e2bf;
+        text-decoration: none;
+        font-size: 13px;
+        display: block;
+        margin: 10px 0;
+        transition: color 0.3s ease;
+        font-family: Arial, sans-serif;
+      }
+
+      .auth-links a:hover {
+        color: #35bd5e;
+      }
+
+      .back-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        color: #ffffff;
+        text-decoration: none;
+        font-size: 13px;
+        margin: 100px 0 20px 40px;
+        transition: color 0.3s ease;
+        font-family: Arial, sans-serif;
+        position: relative;
+        z-index: 1;
+      }
+
+      .back-link:hover {
+        color: #b3e2bf;
+      }
+
+      .success-message {
+        background: rgba(10, 66, 19, 0.2);
+        border: 1px solid #00611a;
+        color: #d4f4dc;
+        padding: 18px;
+        margin-bottom: 25px;
+        text-align: center;
+        font-size: 13px;
+        letter-spacing: 0.5px;
+        display: none;
+        font-family: Arial, sans-serif;
+      }
+
+      .success-message.show {
+        display: block;
+        animation: slideDown 0.4s ease;
+      }
+
+      @keyframes slideDown {
+        from {
+          opacity: 0;
+          transform: translateY(-15px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* Responsive */
+      @media (max-width: 968px) {
+        nav {
+          padding: 15px 20px;
+        }
+
+        .nav-menu {
+          display: none;
+        }
+
+        .university-name {
+          font-size: 42px;
+        }
+
+        .feature-cards {
+          grid-template-columns: 1fr;
+          margin-top: 40px;
+        }
+
+        .about-section {
+          grid-template-columns: 1fr;
+        }
+
+        .about-content {
+          padding: 60px 40px;
+        }
+
+        .about-title {
+          font-size: 36px;
+        }
+
+        .about-image {
+          width: 100%;
+          margin-left: 0;
+          border-radius: 0;
+        }
+
+        .auth-container {
+          margin: 20px;
+          padding: 30px 20px;
+        }
+
+        .back-link {
+          margin: 80px 0 20px 20px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      class="auth-background"
+      id="globalAuthBackground"
+      style="display: none"
+    ></div>
+    <div
+      class="auth-overlay"
+      id="globalAuthOverlay"
+      style="display: none"
+    ></div>
+    <!-- Landing Page -->
+    <div id="landing" class="page active">
+      <nav>
+        <div class="logo-container">
+          <div class="logo"><img src="/images/logo.png" /></div>
+          <div class="logo-text">
+            <span>Noor University</span>
+            <span style="font-size: 9px; opacity: 0.7"
+              >The Character of Success</span
+            >
+          </div>
+        </div>
+        <div class="nav-menu">
+          <a href="#">Home</a>
+          <a href="#">About Us</a>
+          <a href="#">Scholarship</a>
+          <a href="#">News</a>
+          <a href="#" onclick="showPage('signup'); return false;">Sign up</a>
+        </div>
+        <div class="social-icons">
+          <a href="#">f</a>
+          <a href="#">t</a>
+          <a href="#">in</a>
+          <a href="#">yt</a>
+          <a href="#">ig</a>
+        </div>
+      </nav>
+
+      <div class="hero-section">
+        <img
+          src="https://images.unsplash.com/photo-1562774053-701939374585?w=1600&q=80"
+          alt="University Campus"
+          class="hero-image"
+        />
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+          <div class="state-college-badge">
+            <div class="badge-inner">
+              <div class="icon"><img src="/images/logo.png" /></div>
+            </div>
+          </div>
+          <h1 class="university-name">Noor University</h1>
+          <p class="university-tagline">The Character of Success</p>
+        </div>
+      </div>
+
+      <div class="feature-cards">
+        <div
+          class="feature-card"
+          onclick="alert('Please login to access Scholarship information')"
+        >
+          <div class="feature-icon"><img src="/images/icon2.png" /></div>
+          <h3 class="feature-title">Scholarship</h3>
+          <p class="feature-description">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed diam
+            nonummy nibh euismod tincidunt.
+          </p>
+        </div>
+
+        <div
+          class="feature-card"
+          onclick="alert('Please login to explore Our Campus')"
+        >
+          <div class="feature-icon"><img src="/images/icon1.png" /></div>
+          <h3 class="feature-title">Our Campus</h3>
+          <p class="feature-description">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed diam
+            nonummy nibh euismod tincidunt.
+          </p>
+        </div>
+
+        <div
+          class="feature-card"
+          onclick="alert('Please login to view Programs')"
+        >
+          <div class="feature-icon"><img src="/images/icon3.png" /></div>
+          <h3 class="feature-title">Program</h3>
+          <p class="feature-description">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed diam
+            nonummy nibh euismod tincidunt.
+          </p>
+        </div>
+      </div>
+
+      <div class="about-section">
+        <div class="about-content">
+          <div class="about-label">Lorem ipsum dolor sit amet, consectetur</div>
+          <h2 class="about-title">Noor University</h2>
+          <p class="about-text">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed diam
+            nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat
+            volutpat. Ut wisi enim ad minim veniam, quis nostrud exercitation
+            ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo
+            consequat.
+          </p>
+          <p class="about-text">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed diam.
+          </p>
+        </div>
+        <div>
+          <img src="/images/grad2.jpg" alt="Graduate" class="about-image" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Signup Page -->
+    <div id="signup" class="page">
+      <div class="auth-background"></div>
+      <div class="auth-overlay"></div>
+      <nav>
+        <div class="logo-container">
+          <div class="logo"><img src="/images/logo.png" /></div>
+          <div class="logo-text">
+            <span>Noor University</span>
+            <span style="font-size: 9px; opacity: 0.7"
+              >The Character of Success</span
+            >
+          </div>
+        </div>
+        <div class="social-icons">
+          <a href="#">f</a>
+          <a href="#">t</a>
+          <a href="#">in</a>
+          <a href="#">yt</a>
+          <a href="#">ig</a>
+        </div>
+      </nav>
+
+      <a href="#" class="back-link" onclick="showPage('landing'); return false;"
+        ><strong>← Back</strong></a
+      >
+
+      <div class="auth-container">
+        <div class="auth-header">
+          <h2>Create Account</h2>
+          <p>Join Noor University and begin your journey</p>
+        </div>
+
+        <div
+          class="success-message"
+          id="signupError"
+          style="
+            display: none;
+            background: rgba(102, 0, 0, 0.2);
+            border-color: #660000;
+            color: #f4d4d4;
+          "
+        ></div>
+        <div class="success-message" id="signupSuccess">
+          Registration successful. Redirecting to login...
+        </div>
+
+        <form id="signupForm" onsubmit="handleSignup(event)">
+          <div class="form-group">
+            <label>First Name</label>
+            <input
+              type="text"
+              id="firstName"
+              required
+              placeholder="Enter your first name"
+            />
+          </div>
+
+          <div class="form-group">
+            <label>Last Name</label>
+            <input
+              type="text"
+              id="lastName"
+              required
+              placeholder="Enter your last name"
+            />
+          </div>
+
+          <div class="form-group">
+            <label>Email</label>
+            <input
+              type="email"
+              id="signupEmail"
+              required
+              placeholder="Enter your email"
+            />
+          </div>
+
+          <div class="form-group">
+            <label>Password</label>
+            <input
+              type="password"
+              id="signupPassword"
+              required
+              placeholder="Create a secure password"
+            />
+          </div>
+
+          <div class="form-group">
+            <label>Role</label>
+            <select id="userRole" required>
+              <option value="">Select your role</option>
+              <option value="student">Student</option>
+              <option value="teacher">Teacher</option>
+              <option value="admin">Administrator</option>
+            </select>
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-full">
+            Create Account
+          </button>
+        </form>
+
+        <div class="auth-links">
+          <a href="#" onclick="showPage('login'); return false;"
+            >Already have an account? Login here</a
+          >
+        </div>
+      </div>
+    </div>
+
+    <!-- Login Page -->
+
+    <div id="login" class="page">
+      <div class="auth-background"></div>
+      <div class="auth-overlay"></div>
+      <nav>
+        <div class="logo-container">
+          <div class="logo"><img src="/images/logo.png" /></div>
+          <div class="logo-text">
+            <span>Noor University</span>
+            <span style="font-size: 9px; opacity: 0.7"
+              >The Character of Success</span
+            >
+          </div>
+        </div>
+        <div class="social-icons">
+          <a href="#">f</a>
+          <a href="#">t</a>
+          <a href="#">in</a>
+          <a href="#">yt</a>
+          <a href="#">ig</a>
+        </div>
+      </nav>
+
+      <a href="#" class="back-link" onclick="showPage('landing'); return false;"
+        ><strong>← Back</strong></a
+      >
+
+      <div class="auth-container">
+        <div class="auth-header">
+          <h2>Welcome Back</h2>
+          <p>Login to access your portal</p>
+        </div>
+
+        <div
+          class="success-message"
+          id="loginError"
+          style="
+            display: none;
+            background: rgba(102, 0, 0, 0.2);
+            border-color: #660000;
+            color: #f4d4d4;
+          "
+        ></div>
+        <div class="success-message" id="loginSuccess">
+          Authentication successful. Loading your portal...
+        </div>
+
+        <!-- ADD FORM TAG HERE -->
+        <form id="loginForm" onsubmit="handleLogin(event)">
+          <div class="form-group">
+            <label>Email</label>
+            <input
+              type="email"
+              id="loginEmail"
+              required
+              placeholder="Enter your email"
+            />
+          </div>
+
+          <div class="form-group">
+            <label>Password</label>
+            <input
+              type="password"
+              id="loginPassword"
+              required
+              placeholder="Enter your password"
+            />
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-full">Login</button>
+        </form>
+        <div class="auth-links">
+          <a
+            href="#"
+            onclick="alert('Password recovery instructions sent to your email.')"
+            >Forgot your password?</a
+          >
+          <a href="#" onclick="showPage('signup'); return false;"
+            >Don't have an account? Sign up</a
+          >
+        </div>
+      </div>
+    </div>
+
+    <script>
+      function showPage(pageId) {
+        const pages = document.querySelectorAll(".page");
+        pages.forEach((page) => page.classList.remove("active"));
+        document.getElementById(pageId).classList.add("active");
+
+        // Handle background visibility
+        const backgrounds = document.querySelectorAll(
+          ".auth-background, .auth-overlay"
+        );
+        backgrounds.forEach((bg) => {
+          if (pageId === "signup" || pageId === "login") {
+            bg.style.display = "block";
+          } else {
+            bg.style.display = "none";
+          }
+        });
+
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+
+      // Validation functions
+      function validateName(name) {
+        // Check if only letters and at least 3 characters
+        const nameRegex = /^[A-Za-z]{3,}$/;
+        return nameRegex.test(name);
+      }
+
+      function validateEmail(email) {
+        // Traditional email validation
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
+      }
+
+      function validatePassword(password) {
+        // At least 8 characters, at least one letter and one number
+        return (
+          password.length >= 8 &&
+          /[a-zA-Z]/.test(password) &&
+          /\d/.test(password)
+        );
+      }
+
+      // Ensure error message elements exist
+      function ensureErrorMessageExists(formType) {
+        let errorMsg = document.getElementById(`${formType}Error`);
+        if (!errorMsg) {
+          errorMsg = document.createElement("div");
+          errorMsg.id = `${formType}Error`;
+          errorMsg.className = "success-message";
+          errorMsg.style.backgroundColor = "rgba(102, 0, 0, 0.2)";
+          errorMsg.style.borderColor = "#660000";
+          errorMsg.style.color = "#f4d4d4";
+          errorMsg.style.display = "none";
+
+          // Insert it at the beginning of the form
+          const form = document.getElementById(`${formType}Form`);
+          if (form) {
+            const successMsg = form.querySelector(".success-message");
+            if (successMsg && successMsg.id !== `${formType}Error`) {
+              successMsg.parentNode.insertBefore(errorMsg, successMsg);
+            } else {
+              form.prepend(errorMsg);
+            }
+          }
+        }
+        return errorMsg;
+      }
+
+      // Show error message function - FIXED
+      function showErrorMessage(formType, message) {
+        const errorMsg = ensureErrorMessageExists(formType);
+        errorMsg.textContent = message;
+        errorMsg.style.display = "block";
+        errorMsg.classList.add("show");
+
+        // Hide success message if it's showing
+        const successMsg = document.getElementById(`${formType}Success`);
+        if (successMsg) {
+          successMsg.classList.remove("show");
+          successMsg.style.display = "none";
+        }
+
+        setTimeout(() => {
+          errorMsg.classList.remove("show");
+          setTimeout(() => {
+            errorMsg.style.display = "none";
+          }, 400);
+        }, 4000);
+      }
+
+      // Hide error message function
+      function hideErrorMessage(formType) {
+        const errorMsg = document.getElementById(`${formType}Error`);
+        if (errorMsg) {
+          errorMsg.classList.remove("show");
+          setTimeout(() => {
+            errorMsg.style.display = "none";
+          }, 400);
+        }
+      }
+
+      // Create success message
+      function showSuccessMessage(formType, message) {
+        const successMsg = document.getElementById(`${formType}Success`);
+        if (successMsg) {
+          successMsg.textContent = message;
+          successMsg.style.backgroundColor = "rgba(10, 66, 19, 0.2)";
+          successMsg.style.borderColor = "#00611a";
+          successMsg.style.color = "#d4f4dc";
+          successMsg.style.display = "block";
+          successMsg.classList.add("show");
+
+          // Hide error message if it's showing
+          hideErrorMessage(formType);
+        }
+      }
+
+      async function handleSignup(e) {
+        e.preventDefault();
+
+        // Get form values
+        const firstName = document.getElementById("firstName").value.trim();
+        const lastName = document.getElementById("lastName").value.trim();
+        const email = document.getElementById("signupEmail").value.trim();
+        const password = document.getElementById("signupPassword").value;
+        const role = document.getElementById("userRole").value;
+
+        // Validate first name
+        if (!validateName(firstName)) {
+          showErrorMessage(
+            "signup",
+            "First name must contain only letters and be at least 3 characters long"
+          );
+          return;
+        }
+
+        // Validate last name
+        if (!validateName(lastName)) {
+          showErrorMessage(
+            "signup",
+            "Last name must contain only letters and be at least 3 characters long"
+          );
+          return;
+        }
+
+        // Validate email
+        if (!validateEmail(email)) {
+          showErrorMessage(
+            "signup",
+            "Please enter a valid email address (e.g., example@domain.com)"
+          );
+          return;
+        }
+
+        // Validate password
+        if (!validatePassword(password)) {
+          showErrorMessage(
+            "signup",
+            "Password must be at least 8 characters long and contain both letters and numbers"
+          );
+          return;
+        }
+
+        // All validations passed, proceed with signup
+        const formData = {
+          email: email,
+          password: password,
+          full_name: `${firstName} ${lastName}`,
+          role: role,
+        };
+
+        console.log("Signup Data:", formData);
+        console.log("Signup URL: http://localhost:8000/api/auth/register");
+
+        // Show processing message
+        showSuccessMessage("signup", "Processing your registration...");
+        document.getElementById("signupSuccess").style.backgroundColor =
+          "rgba(0, 48, 73, 0.2)";
+        document.getElementById("signupSuccess").style.borderColor = "#003049";
+
+        try {
+          const response = await fetch(
+            "http://localhost:8000/api/auth/register",
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(formData),
+            }
+          );
+
+          const data = await response.json();
+          console.log("Signup response:", data);
+
+          if (response.ok) {
+            showSuccessMessage(
+              "signup",
+              "Registration successful! Redirecting to login..."
+            );
+
+            // Save user information
+            localStorage.setItem("userRole", formData.role);
+            localStorage.setItem("userEmail", formData.email);
+
+            setTimeout(() => {
+              document.getElementById("signupSuccess").classList.remove("show");
+              document.getElementById("signupForm").reset();
+              showPage("login");
+            }, 2000);
+          } else {
+            throw new Error(data.detail || "Registration failed");
+          }
+        } catch (error) {
+          console.error("Signup error:", error);
+          document.getElementById("signupSuccess").classList.remove("show");
+
+          showErrorMessage("signup", `Error: ${error.message}`);
+        }
+      }
+
+      async function handleLogin(e) {
+        e.preventDefault();
+
+        // Get form values
+        const email = document.getElementById("loginEmail").value.trim();
+        const password = document.getElementById("loginPassword").value;
+
+        // Validate email
+        if (!validateEmail(email)) {
+          showErrorMessage("login", "Please enter a valid email address");
+          return;
+        }
+
+        // Validate password
+        if (!validatePassword(password)) {
+          showErrorMessage(
+            "login",
+            "Password must be at least 8 characters long and contain both letters and numbers"
+          );
+          return;
+        }
+
+        const formData = {
+          email: email,
+          password: password,
+        };
+
+        console.log("Login Data:", formData);
+        console.log("Login URL: http://localhost:8000/api/auth/login");
+
+        // Show processing message
+        showSuccessMessage("login", "Authenticating...");
+        document.getElementById("loginSuccess").style.backgroundColor =
+          "rgba(0, 48, 73, 0.2)";
+        document.getElementById("loginSuccess").style.borderColor = "#003049";
+
+        try {
+          const response = await fetch("http://localhost:8000/api/auth/login", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(formData),
+          });
+
+          const data = await response.json();
+          console.log("Login response:", data);
+
+          if (response.ok && data.access_token) {
+            showSuccessMessage(
+              "login",
+              "Authentication successful! Redirecting..."
+            );
+
+            // Save tokens
+            localStorage.setItem("access_token", data.access_token);
+            localStorage.setItem("refresh_token", data.refresh_token || "");
+            localStorage.setItem("userEmail", formData.email);
+
+            // Get user role
+            try {
+              const verifyResponse = await fetch(
+                "http://localhost:8001/api/auth/verify",
+                {
+                  method: "GET",
+                  headers: {
+                    Authorization: `Bearer ${data.access_token}`,
+                  },
+                }
+              );
+
+              if (verifyResponse.ok) {
+                const userData = await verifyResponse.json();
+                console.log("User data:", userData);
+                localStorage.setItem("userRole", userData.role || "student");
+                localStorage.setItem("userFullName", userData.full_name || "");
+              } else {
+                console.log("Verify failed, using role from form or default");
+                // Use role from localStorage if exists, otherwise default to student
+                const savedRole = localStorage.getItem("userRole");
+                if (!savedRole) {
+                  localStorage.setItem("userRole", "student");
+                }
+              }
+            } catch (verifyError) {
+              console.log("Could not verify user role:", verifyError);
+              localStorage.setItem("userRole", "student");
+            }
+
+            setTimeout(() => {
+              document.getElementById("loginSuccess").classList.remove("show");
+              document.getElementById("loginForm").reset();
+
+              const userRole = localStorage.getItem("userRole") || "student";
+              console.log("Redirecting to dashboard with role:", userRole);
+              window.location.href = `dashboard.html?role=${userRole}`;
+            }, 1500);
+          } else {
+            throw new Error(
+              data.detail || "Login failed. Check your credentials."
+            );
+          }
+        } catch (error) {
+          console.error("Login error:", error);
+          document.getElementById("loginSuccess").classList.remove("show");
+
+          showErrorMessage("login", `Error: ${error.message}`);
+        }
+      }
+
+      // Debug function to check if everything is working
+      function checkPageSetup() {
+        console.log("=== Page Setup Check ===");
+
+        // Check forms exist
+        console.log(
+          "Signup form exists:",
+          !!document.getElementById("signupForm")
+        );
+        console.log(
+          "Login form exists:",
+          !!document.getElementById("loginForm")
+        );
+
+        // Check if error messages exist
+        console.log(
+          "Signup error exists:",
+          !!document.getElementById("signupError")
+        );
+        console.log(
+          "Login error exists:",
+          !!document.getElementById("loginError")
+        );
+
+        // Check if we're on correct page
+        const activePage = document.querySelector(".page.active");
+        if (activePage) {
+          console.log("Active page ID:", activePage.id);
+        }
+
+        console.log("=== End Check ===");
+      }
+
+      // Run check when page loads
+      window.addEventListener("DOMContentLoaded", function () {
+        checkPageSetup();
+
+        // Initialize error message elements on page load
+        ensureErrorMessageExists("signup");
+        ensureErrorMessageExists("login");
+      });
+    </script>
+  </body>
+</html>

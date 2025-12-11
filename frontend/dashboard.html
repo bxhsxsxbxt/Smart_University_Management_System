@@ -1,0 +1,1304 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Noor University - Dashboard</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Georgia", "Times New Roman", serif;
+        background-color: #000;
+        color: #fff;
+        min-height: 100vh;
+        line-height: 1.6;
+      }
+
+      /* Pages */
+      .page {
+        display: none;
+      }
+
+      .page.active {
+        display: block;
+      }
+
+      /* Navigation */
+      nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        background: linear-gradient(
+          180deg,
+          rgba(0, 0, 0, 0.98) 0%,
+          rgba(0, 0, 0, 0.95) 100%
+        );
+        padding: 20px 60px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        z-index: 1000;
+        border-bottom: 1px solid rgba(0, 97, 26, 0.3);
+        backdrop-filter: blur(10px);
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+      }
+
+      .logo-container {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+      }
+
+      .logo-container img {
+        width: 65px;
+        height: auto;
+      }
+
+      .logo {
+        width: 50px;
+        height: 50px;
+        background: #fff;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        color: #000;
+        font-size: 24px;
+      }
+
+      .logo-text {
+        display: flex;
+        flex-direction: column;
+        font-size: 11px;
+        line-height: 1.3;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      .nav-menu {
+        display: flex;
+        gap: 35px;
+        align-items: center;
+      }
+
+      .nav-menu a {
+        color: #fff;
+        text-decoration: none;
+        font-size: 14px;
+        transition: all 0.3s ease;
+        font-family: Arial, sans-serif;
+        position: relative;
+        padding: 8px 0;
+        cursor: pointer;
+      }
+
+      .nav-menu a::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background: #00611a;
+        transition: width 0.3s ease;
+      }
+
+      .nav-menu a:hover::after {
+        width: 100%;
+      }
+
+      .nav-menu a:hover {
+        color: #35bd5e;
+      }
+
+      /* Dashboard Styles */
+      .dashboard-page {
+        padding-top: 100px;
+        min-height: 100vh;
+        background: #000;
+      }
+
+      .dashboard-header {
+        max-width: 1200px;
+        margin: 0 auto 50px;
+        padding: 0 40px;
+      }
+
+      .dashboard-header h1 {
+        font-size: 42px;
+        margin-bottom: 10px;
+        letter-spacing: 1px;
+      }
+
+      .dashboard-header p {
+        color: #888;
+        font-size: 14px;
+        font-family: Arial, sans-serif;
+      }
+
+      .dashboard-grid {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 40px;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        gap: 25px;
+        padding-bottom: 60px;
+      }
+
+      .dashboard-card {
+        background: linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.02) 0%,
+          rgba(255, 255, 255, 0.04) 100%
+        );
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 16px;
+        padding: 35px;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .dashboard-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(0, 97, 26, 0.1),
+          transparent
+        );
+        transition: left 0.6s ease;
+      }
+
+      .dashboard-card:hover::before {
+        left: 100%;
+      }
+
+      .dashboard-card:hover {
+        background: linear-gradient(
+          135deg,
+          rgba(0, 97, 26, 0.05) 0%,
+          rgba(0, 97, 26, 0.08) 100%
+        );
+        border-color: #00611a;
+        transform: translateY(-5px);
+        box-shadow: 0 15px 40px rgba(0, 97, 26, 0.3);
+      }
+
+      .dashboard-card-icon {
+        width: 65px;
+        height: 65px;
+        background: linear-gradient(
+          135deg,
+          rgba(0, 97, 26, 0.15) 0%,
+          rgba(0, 97, 26, 0.25) 100%
+        );
+        border-radius: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 28px;
+        margin-bottom: 22px;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(0, 97, 26, 0.2);
+      }
+
+      .dashboard-card:hover .dashboard-card-icon {
+        transform: scale(1.1) rotate(5deg);
+        box-shadow: 0 6px 20px rgba(0, 97, 26, 0.4);
+      }
+
+      .dashboard-card-icon img {
+        width: 45px;
+        height: auto;
+      }
+
+      .dashboard-card h3 {
+        font-size: 20px;
+        margin-bottom: 12px;
+        font-family: Arial, sans-serif;
+        letter-spacing: 0.5px;
+      }
+
+      .dashboard-card p {
+        color: #aaa;
+        font-size: 13px;
+        line-height: 1.6;
+        margin-bottom: 20px;
+        font-family: Arial, sans-serif;
+      }
+
+      .dashboard-card-btn {
+        display: inline-block;
+        padding: 11px 26px;
+        background: linear-gradient(
+          135deg,
+          rgba(0, 97, 26, 0.2) 0%,
+          rgba(0, 97, 26, 0.3) 100%
+        );
+        border: 1px solid #00611a;
+        border-radius: 9px;
+        color: #35bd5e;
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 1.2px;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        font-family: Arial, sans-serif;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .dashboard-card-btn:hover {
+        background: linear-gradient(135deg, #00611a 0%, #1b7b35 100%);
+        color: #fff;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 15px rgba(0, 97, 26, 0.4);
+      }
+
+      /* Admin specific styles */
+      .admin-stats {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 20px;
+        max-width: 1200px;
+        margin: 0 auto 40px;
+        padding: 0 40px;
+      }
+
+      .stat-card {
+        background: linear-gradient(
+          135deg,
+          rgba(0, 97, 26, 0.08) 0%,
+          rgba(0, 97, 26, 0.15) 100%
+        );
+        border: 1px solid rgba(0, 97, 26, 0.3);
+        border-radius: 14px;
+        padding: 28px;
+        text-align: center;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+        cursor: pointer;
+      }
+
+      .stat-card::after {
+        content: "";
+        position: absolute;
+        top: -50%;
+        right: -50%;
+        width: 100%;
+        height: 100%;
+        background: radial-gradient(
+          circle,
+          rgba(53, 189, 94, 0.1) 0%,
+          transparent 70%
+        );
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+
+      .stat-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 25px rgba(0, 97, 26, 0.3);
+        border-color: #35bd5e;
+      }
+
+      .stat-card:hover::after {
+        opacity: 1;
+      }
+
+      .stat-number {
+        font-size: 40px;
+        font-weight: bold;
+        color: #35bd5e;
+        margin-bottom: 10px;
+        text-shadow: 0 2px 10px rgba(53, 189, 94, 0.3);
+      }
+
+      .stat-label {
+        font-size: 12px;
+        color: #888;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        font-family: Arial, sans-serif;
+      }
+
+      /* Success/Error Messages */
+      .success-message {
+        background: rgba(10, 66, 19, 0.2);
+        border: 1px solid #00611a;
+        color: #d4f4dc;
+        padding: 18px;
+        margin-bottom: 25px;
+        text-align: center;
+        font-size: 13px;
+        letter-spacing: 0.5px;
+        display: none;
+        font-family: Arial, sans-serif;
+        border-radius: 10px;
+      }
+
+      .success-message.show {
+        display: block;
+        animation: slideDown 0.4s ease;
+      }
+
+      .error-message {
+        background: rgba(102, 0, 0, 0.2);
+        border: 1px solid #660000;
+        color: #f4d4d4;
+        padding: 18px;
+        margin-bottom: 25px;
+        text-align: center;
+        font-size: 13px;
+        letter-spacing: 0.5px;
+        display: none;
+        font-family: Arial, sans-serif;
+        border-radius: 10px;
+      }
+
+      .error-message.show {
+        display: block;
+        animation: slideDown 0.4s ease;
+      }
+
+      @keyframes slideDown {
+        from {
+          opacity: 0;
+          transform: translateY(-15px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* Responsive */
+      @media (max-width: 968px) {
+        nav {
+          padding: 15px 30px;
+        }
+
+        .nav-menu {
+          gap: 20px;
+        }
+
+        .dashboard-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .admin-stats {
+          grid-template-columns: repeat(2, 1fr);
+        }
+
+        .dashboard-header h1 {
+          font-size: 32px;
+        }
+      }
+
+      @media (max-width: 600px) {
+        .admin-stats {
+          grid-template-columns: 1fr;
+        }
+
+        nav {
+          padding: 15px 20px;
+        }
+
+        .dashboard-grid {
+          padding: 0 20px 40px;
+        }
+
+        .dashboard-header {
+          padding: 0 20px;
+        }
+      }
+
+      /* Profile Avatar */
+      .profile-container {
+        position: relative;
+      }
+
+      .profile-avatar {
+        width: 45px;
+        height: 45px;
+        background: linear-gradient(135deg, #00611a 0%, #1b7b35 100%);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 18px;
+        font-weight: bold;
+        color: #fff;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        border: 2px solid rgba(255, 255, 255, 0.2);
+      }
+
+      .profile-avatar:hover {
+        transform: scale(1.05);
+        border-color: #35bd5e;
+        box-shadow: 0 4px 15px rgba(0, 97, 26, 0.4);
+      }
+
+      .profile-dropdown {
+        position: absolute;
+        top: 60px;
+        right: 0;
+        background: linear-gradient(
+          135deg,
+          rgba(0, 0, 0, 0.95) 0%,
+          rgba(0, 0, 0, 0.98) 100%
+        );
+        border: 1px solid rgba(0, 97, 26, 0.3);
+        border-radius: 12px;
+        padding: 20px;
+        min-width: 280px;
+        display: none;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+        z-index: 1001;
+      }
+
+      .profile-dropdown.show {
+        display: block;
+        animation: slideDown 0.3s ease;
+      }
+
+      .profile-info {
+        padding-bottom: 15px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        margin-bottom: 15px;
+      }
+
+      .profile-info h3 {
+        font-size: 16px;
+        margin-bottom: 5px;
+        color: #35bd5e;
+      }
+
+      .profile-info p {
+        font-size: 13px;
+        color: #888;
+        font-family: Arial, sans-serif;
+      }
+
+      .profile-menu {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .profile-menu-item {
+        padding: 10px 15px;
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 8px;
+        color: #fff;
+        font-size: 13px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-family: Arial, sans-serif;
+        text-decoration: none;
+        display: block;
+      }
+
+      .profile-menu-item:hover {
+        background: rgba(0, 97, 26, 0.1);
+        border-color: #00611a;
+        color: #35bd5e;
+      }
+
+      /* Modal for lists */
+      .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.85);
+        z-index: 2000;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .modal.show {
+        display: flex;
+      }
+
+      .modal-content {
+        background: linear-gradient(
+          135deg,
+          rgba(0, 0, 0, 0.95) 0%,
+          rgba(0, 0, 0, 0.98) 100%
+        );
+        border: 1px solid rgba(0, 97, 26, 0.3);
+        border-radius: 18px;
+        padding: 40px;
+        max-width: 800px;
+        width: 90%;
+        max-height: 80vh;
+        overflow-y: auto;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+      }
+
+      .modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 30px;
+      }
+
+      .modal-header h2 {
+        font-size: 28px;
+        color: #35bd5e;
+      }
+
+      .modal-close {
+        font-size: 32px;
+        color: #888;
+        cursor: pointer;
+        transition: color 0.3s ease;
+        background: none;
+        border: none;
+      }
+
+      .modal-close:hover {
+        color: #fff;
+      }
+
+      .user-list {
+        display: grid;
+        gap: 15px;
+      }
+
+      .user-item {
+        background: linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.02) 0%,
+          rgba(255, 255, 255, 0.04) 100%
+        );
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 12px;
+        padding: 20px;
+        display: grid;
+        grid-template-columns: 60px 1fr auto;
+        gap: 20px;
+        align-items: center;
+        transition: all 0.3s ease;
+      }
+
+      .user-item:hover {
+        background: linear-gradient(
+          135deg,
+          rgba(0, 97, 26, 0.05) 0%,
+          rgba(0, 97, 26, 0.08) 100%
+        );
+        border-color: rgba(0, 97, 26, 0.6);
+      }
+
+      .user-avatar {
+        width: 60px;
+        height: 60px;
+        background: linear-gradient(135deg, #00611a 0%, #1b7b35 100%);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 24px;
+        font-weight: bold;
+        color: #fff;
+      }
+
+      .user-details h3 {
+        font-size: 16px;
+        margin-bottom: 5px;
+        font-family: Arial, sans-serif;
+      }
+
+      .user-details p {
+        font-size: 13px;
+        color: #888;
+        font-family: Arial, sans-serif;
+      }
+
+      .user-badge {
+        padding: 8px 16px;
+        background: rgba(0, 97, 26, 0.2);
+        border: 1px solid #00611a;
+        border-radius: 20px;
+        color: #35bd5e;
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        font-family: Arial, sans-serif;
+      }
+
+      .profile-header {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .profile-name-display {
+        font-size: 14px;
+        color: #fff;
+        font-family: Arial, sans-serif;
+        font-weight: 500;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Student Dashboard -->
+    <div id="student-dashboard" class="page active dashboard-page">
+      <nav>
+        <div class="logo-container">
+          <div class="logo"><img src="/images/logo.png" /></div>
+          <div class="logo-text">
+            <span>Noor University</span>
+            <span style="font-size: 9px; opacity: 0.7"
+              >The Character of Success</span
+            >
+          </div>
+        </div>
+        <div style="flex: 1"></div>
+        <div class="profile-container">
+          <div class="profile-header">
+            <span class="profile-name-display" id="profileNameDisplay"
+              >Loading...</span
+            >
+            <div class="profile-avatar" onclick="toggleProfile()">U</div>
+          </div>
+          <div class="profile-dropdown" id="profileDropdown">
+            <div class="profile-info">
+              <h3 id="profileName">Loading...</h3>
+              <p id="profileEmail">Loading...</p>
+              <p id="profileRole">Loading...</p>
+            </div>
+            <div class="profile-menu">
+              <a href="#" class="profile-menu-item logout-link">Logout</a>
+            </div>
+          </div>
+        </div>
+      </nav>
+
+      <div class="dashboard-header">
+        <h1>Student Portal</h1>
+        <p>Welcome back! Manage your academic resources and activities</p>
+      </div>
+
+      <div class="dashboard-grid">
+        <div
+          class="dashboard-card"
+          onclick="window.location.href='resources.html?role=student'"
+        >
+          <div class="dashboard-card-icon">
+            <img src="/images/resources.png" />
+          </div>
+          <h3>Resource Reservation</h3>
+          <p>Reserve rooms, classrooms, and equipment for your studies</p>
+          <a href="resources.html?role=student" class="dashboard-card-btn"
+            >Reserve Now</a
+          >
+        </div>
+
+        <div class="dashboard-card">
+          <div class="dashboard-card-icon">
+            <img src="/images/market.png" />
+          </div>
+          <h3>Marketplace</h3>
+          <p>Browse and purchase academic materials and supplies</p>
+          <a href="market.html?role=student" class="dashboard-card-btn"
+            >Browse Products</a
+          >
+        </div>
+
+        <div
+          class="dashboard-card"
+          onclick="window.location.href='exams.html?role=student'"
+        >
+          <div class="dashboard-card-icon"><img src="/images/exams.png" /></div>
+          <h3>Active Exams</h3>
+          <p>View and participate in your scheduled examinations</p>
+          <a href="exams.html?role=student" class="dashboard-card-btn"
+            >Take Exam</a
+          >
+          >
+        </div>
+
+        <div
+          class="dashboard-card"
+          onclick="alert('Temperature: 22°C, Humidity: 45%')"
+        >
+          <div class="dashboard-card-icon"><img src="/images/IOT.png" /></div>
+          <h3>Classroom Environment</h3>
+          <p>Monitor temperature and environmental conditions</p>
+          <a
+            href="#"
+            class="dashboard-card-btn"
+            onclick="alert('Temperature: 22°C, Humidity: 45%'); return false;"
+            >View Sensors</a
+          >
+        </div>
+
+        <div
+          class="dashboard-card"
+          onclick="alert('Shuttle tracking opening soon')"
+        >
+          <div class="dashboard-card-icon">
+            <img src="/images/shuttle.png" />
+          </div>
+          <h3>University Shuttle</h3>
+          <p>Track shuttle locations and schedules in real-time</p>
+          <a
+            href="#"
+            class="dashboard-card-btn"
+            onclick="alert('Shuttle tracking opening soon'); return false;"
+            >View Map</a
+          >
+        </div>
+      </div>
+    </div>
+
+    <!-- Teacher Dashboard -->
+    <div id="teacher-dashboard" class="page dashboard-page">
+      <nav>
+        <div class="logo-container">
+          <div class="logo"><img src="/images/logo.png" /></div>
+          <div class="logo-text">
+            <span>Noor University</span>
+            <span style="font-size: 9px; opacity: 0.7"
+              >The Character of Success</span
+            >
+          </div>
+        </div>
+        <div class="profile-container">
+          <div class="profile-header">
+            <span class="profile-name-display" id="profileNameDisplay"
+              >Loading...</span
+            >
+            <div class="profile-avatar" onclick="toggleProfile()">U</div>
+          </div>
+          <div class="profile-dropdown" id="profileDropdown">
+            <div class="profile-info">
+              <h3 id="profileName">Loading...</h3>
+              <p id="profileEmail">Loading...</p>
+              <p id="profileRole">Loading...</p>
+            </div>
+            <div class="profile-menu">
+              <a href="#" class="profile-menu-item logout-link">Logout</a>
+            </div>
+          </div>
+        </div>
+      </nav>
+
+      <div class="dashboard-header">
+        <h1>Professor Portal</h1>
+        <p>Manage courses, exams, and academic resources</p>
+      </div>
+
+      <div class="dashboard-grid">
+        <div
+          class="dashboard-card"
+          onclick="window.location.href='exams.html?role=teacher'"
+        >
+          <div class="dashboard-card-icon"><img src="/images/exams.png" /></div>
+          <h3>Create Exam</h3>
+          <p>Design and schedule new examinations for your courses</p>
+          <a href="exams.html?role=teacher" class="dashboard-card-btn"
+            >New Exam</a
+          >
+        </div>
+
+        <div
+          class="dashboard-card"
+          onclick="alert('Student list opening soon')"
+        >
+          <div class="dashboard-card-icon"><img src="/images/users.png" /></div>
+          <h3>Student Participants</h3>
+          <p>View list of students enrolled in your courses</p>
+          <a
+            href="#"
+            class="dashboard-card-btn"
+            onclick="alert('Student list opening soon'); return false;"
+            >View List</a
+          >
+        </div>
+
+        <div
+          class="dashboard-card"
+          onclick="window.location.href='resources.html?role=teacher'"
+        >
+          <div class="dashboard-card-icon">
+            <img src="/images/resources.png" />
+          </div>
+          <h3>Reserved Resources</h3>
+          <p>View and manage your reserved rooms and equipment</p>
+          <a href="resources.html?role=teacher" class="dashboard-card-btn"
+            >View Resources</a
+          >
+        </div>
+
+        <div class="dashboard-card">
+          <div class="dashboard-card-icon">
+            <img src="/images/market.png" />
+          </div>
+          <h3>Marketplace Products</h3>
+          <p>Define and manage products in the university marketplace</p>
+          <a href="market.html?role=teacher" class="dashboard-card-btn"
+            >Browse Products</a
+          >
+        </div>
+
+        <div class="dashboard-card" onclick="alert('All sensors operational')">
+          <div class="dashboard-card-icon">
+            <img src="/images/resources.png" />
+          </div>
+          <h3>Sensor Status</h3>
+          <p>Monitor environmental sensors across campus</p>
+          <a
+            href="#"
+            class="dashboard-card-btn"
+            onclick="alert('All sensors operational'); return false;"
+            >View Status</a
+          >
+        </div>
+
+        <div
+          class="dashboard-card"
+          onclick="alert('Shuttle tracking opening soon')"
+        >
+          <div class="dashboard-card-icon">
+            <img src="/images/shuttle.png" />
+          </div>
+          <h3>Shuttle Location</h3>
+          <p>Track university shuttle locations in real-time</p>
+          <a
+            href="#"
+            class="dashboard-card-btn"
+            onclick="alert('Shuttle tracking opening soon'); return false;"
+            >View Map</a
+          >
+        </div>
+      </div>
+    </div>
+
+    <!-- Administrator Dashboard -->
+    <div id="admin-dashboard" class="page dashboard-page">
+      <nav>
+        <div class="logo-container">
+          <div class="logo"><img src="/images/logo.png" /></div>
+          <div class="logo-text">
+            <span>Noor University</span>
+            <span style="font-size: 9px; opacity: 0.7"
+              >The Character of Success</span
+            >
+          </div>
+        </div>
+        <div class="profile-container">
+          <div class="profile-header">
+            <span class="profile-name-display" id="profileNameDisplay"
+              >Loading...</span
+            >
+            <div class="profile-avatar" onclick="toggleProfile()">U</div>
+          </div>
+          <div class="profile-dropdown" id="profileDropdown">
+            <div class="profile-info">
+              <h3 id="profileName">Loading...</h3>
+              <p id="profileEmail">Loading...</p>
+              <p id="profileRole">Loading...</p>
+            </div>
+            <div class="profile-menu">
+              <a href="#" class="profile-menu-item logout-link">Logout</a>
+            </div>
+          </div>
+        </div>
+      </nav>
+
+      <div class="dashboard-header">
+        <h1>Administrator Portal</h1>
+        <p>Manage university operations, users, and system settings</p>
+      </div>
+
+      <div class="admin-stats">
+        <div class="stat-card" onclick="showUserList('students')">
+          <div class="stat-number">1,247</div>
+          <div class="stat-label">Total Students</div>
+        </div>
+        <div class="stat-card" onclick="showUserList('teachers')">
+          <div class="stat-number">89</div>
+          <div class="stat-label">Total Professors</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">156</div>
+          <div class="stat-label">Active Courses</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">23</div>
+          <div class="stat-label">Pending Requests</div>
+        </div>
+      </div>
+
+      <div class="dashboard-grid">
+        <div class="dashboard-card">
+          <div class="dashboard-card-icon">
+            <img src="/images/market.png" />
+          </div>
+          <h3>Marketplace Products</h3>
+          <p>Add, edit, and manage workshop tickets, books, and products</p>
+          <a href="market.html?role=admin" class="dashboard-card-btn"
+            >Manage Products</a
+          >
+        </div>
+
+        <div
+          class="dashboard-card"
+          onclick="window.location.href='resources.html?role=admin'"
+        >
+          <div class="dashboard-card-icon">
+            <img src="/images/resources.png" />
+          </div>
+          <h3>Faculty Resources</h3>
+          <p>Manage bookable rooms, labs, and equipment in your faculty</p>
+          <a href="resources.html?role=admin" class="dashboard-card-btn"
+            >View Resources</a
+          >
+        </div>
+
+        <div
+          class="dashboard-card"
+          onclick="alert('Orders & Transactions opening soon')"
+        >
+          <div class="dashboard-card-icon">
+            <img src="/images/orders.png" />
+          </div>
+          <h3>Orders & Transactions</h3>
+          <p>
+            View all purchases and order statuses for your faculty's products
+          </p>
+          <a
+            href="#"
+            class="dashboard-card-btn"
+            onclick="alert('Orders & Transactions opening soon'); return false;"
+            >View Orders</a
+          >
+        </div>
+
+        <div
+          class="dashboard-card"
+          onclick="window.location.href='exams.html?role=admin'"
+        >
+          <div class="dashboard-card-icon"><img src="/images/exams.png" /></div>
+          <h3>Exams Overview</h3>
+          <p>Monitor exams created by professors in your faculty</p>
+          <a href="exams.html?role=admin" class="dashboard-card-btn"
+            >View Exams</a
+          >
+        </div>
+
+        <div class="dashboard-card" onclick="alert('IoT monitor opening soon')">
+          <div class="dashboard-card-icon"><img src="/images/IOT.png" /></div>
+          <h3>Faculty IoT Monitor</h3>
+          <p>View virtual sensors: classroom temperature, shuttle locations</p>
+          <a
+            href="#"
+            class="dashboard-card-btn"
+            onclick="alert('IoT monitor opening soon'); return false;"
+            >View Sensors</a
+          >
+        </div>
+
+        <div
+          class="dashboard-card"
+          onclick="alert('Shuttle tracking opening soon')"
+        >
+          <div class="dashboard-card-icon">
+            <img src="/images/shuttle.png" />
+          </div>
+          <h3>Shuttle Location</h3>
+          <p>Track university shuttle locations in real-time</p>
+          <a
+            href="#"
+            class="dashboard-card-btn"
+            onclick="alert('Shuttle tracking opening soon'); return false;"
+            >View Map</a
+          >
+        </div>
+      </div>
+      <!-- User List Modal -->
+      <div id="userListModal" class="modal">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h2 id="modalTitle">Users</h2>
+            <button class="modal-close" onclick="closeModal()">&times;</button>
+          </div>
+          <div class="user-list" id="userListContainer">
+            <!-- Users will be loaded here -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Get user role
+      const params = new URLSearchParams(window.location.search);
+      const currentUserRole =
+        params.get("role") || localStorage.getItem("userRole") || "student";
+
+      // Store role if from URL
+      if (params.get("role")) {
+        localStorage.setItem("userRole", params.get("role"));
+      }
+
+      // Show correct dashboard on load
+      document.addEventListener("DOMContentLoaded", function () {
+        console.log("Current user role:", currentUserRole);
+
+        // Hide all dashboards
+        document.querySelectorAll(".dashboard-page").forEach((page) => {
+          page.classList.remove("active");
+        });
+
+        // Show correct dashboard
+        if (currentUserRole === "teacher") {
+          document.getElementById("teacher-dashboard").classList.add("active");
+        } else if (currentUserRole === "admin") {
+          document.getElementById("admin-dashboard").classList.add("active");
+        } else {
+          document.getElementById("student-dashboard").classList.add("active");
+        }
+
+        // Setup logout buttons
+        document.querySelectorAll(".logout-link").forEach((button) => {
+          button.addEventListener("click", function (e) {
+            e.preventDefault();
+
+            // Clear storage
+            localStorage.removeItem("access_token");
+            localStorage.removeItem("refresh_token");
+            localStorage.removeItem("userRole");
+            localStorage.removeItem("userEmail");
+
+            // Redirect to index.html
+            window.location.href = "index.html";
+          });
+        });
+      });
+      // Toggle profile dropdown
+      function toggleProfile() {
+        const dropdowns = document.querySelectorAll(".profile-dropdown");
+        dropdowns.forEach((dropdown) => {
+          dropdown.classList.toggle("show");
+        });
+      }
+
+      // Close profile when clicking outside
+      document.addEventListener("click", function (e) {
+        if (!e.target.closest(".profile-container")) {
+          document.querySelectorAll(".profile-dropdown").forEach((dropdown) => {
+            dropdown.classList.remove("show");
+          });
+        }
+      });
+
+      // Load user profile
+      async function loadUserProfile() {
+        const userEmail = localStorage.getItem("userEmail") || "user@noor.edu";
+        const userRole = localStorage.getItem("userRole") || "student";
+        let fullName = localStorage.getItem("userFullName") || "";
+
+        // Try to get user data from API
+        const token = localStorage.getItem("access_token");
+        if (token) {
+          try {
+            // Use AUTH_SERVICE environment variable - defaults to localhost for development
+            const authServiceUrl =
+              window.location.hostname === "localhost"
+                ? "http://localhost:8001"
+                : "http://auth-service:8001";
+
+            const response = await fetch(`${authServiceUrl}/api/auth/verify`, {
+              method: "GET",
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            });
+
+            if (response.ok) {
+              const userData = await response.json();
+              fullName = userData.full_name || fullName;
+              localStorage.setItem("userFullName", fullName);
+            } else {
+              console.error("Failed to verify user:", response.status);
+            }
+          } catch (error) {
+            console.error("Could not fetch user data:", error);
+          }
+        }
+
+        // If no full name, create one from email
+        if (!fullName) {
+          fullName = userEmail.split("@")[0].replace(/[._-]/g, " ");
+          fullName = fullName
+            .split(" ")
+            .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+            .join(" ");
+        }
+
+        // Get first letter for avatar
+        const firstLetter = fullName.charAt(0).toUpperCase();
+
+        // Update all profile sections
+        const avatars = document.querySelectorAll(".profile-avatar");
+        avatars.forEach((avatar) => {
+          avatar.textContent = firstLetter;
+        });
+
+        // Update name displays
+        const nameDisplays = document.querySelectorAll(".profile-name-display");
+        nameDisplays.forEach((display) => {
+          display.textContent = fullName;
+        });
+
+        // Update profile info for each dashboard
+        const profiles = [
+          { name: "profileName", email: "profileEmail", role: "profileRole" },
+          {
+            name: "profileNameTeacher",
+            email: "profileEmailTeacher",
+            role: "profileRoleTeacher",
+          },
+          {
+            name: "profileNameAdmin",
+            email: "profileEmailAdmin",
+            role: "profileRoleAdmin",
+          },
+        ];
+
+        profiles.forEach((profile) => {
+          const nameEl = document.getElementById(profile.name);
+          const emailEl = document.getElementById(profile.email);
+          const roleEl = document.getElementById(profile.role);
+
+          if (nameEl) nameEl.textContent = fullName;
+          if (emailEl) emailEl.textContent = userEmail;
+          if (roleEl)
+            roleEl.textContent =
+              userRole.charAt(0).toUpperCase() + userRole.slice(1);
+        });
+      }
+
+      // Show user list modal
+      async function showUserList(type) {
+        const modal = document.getElementById("userListModal");
+        const modalTitle = document.getElementById("modalTitle");
+        const container = document.getElementById("userListContainer");
+
+        modalTitle.textContent =
+          type === "students" ? "All Students" : "All Professors";
+        container.innerHTML =
+          '<p style="text-align: center; color: #888;">Loading users...</p>';
+        modal.classList.add("show");
+
+        // Fetch users from API
+        const token = localStorage.getItem("access_token");
+        if (!token) {
+          container.innerHTML =
+            '<p style="text-align: center; color: #f4d4d4;">Error: No authentication token found. Please log in again.</p>';
+          return;
+        }
+
+        try {
+          // Use USER_SERVICE environment variable - defaults to localhost for development
+          const userServiceUrl =
+            window.location.hostname === "localhost"
+              ? "http://localhost:8002"
+              : "http://user-service:8002";
+
+          const response = await fetch(
+            `${userServiceUrl}/api/users?skip=0&limit=100`,
+            {
+              method: "GET",
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+
+          if (!response.ok) {
+            throw new Error(
+              `Failed to fetch users: ${response.status} ${response.statusText}`
+            );
+          }
+
+          const users = await response.json();
+          const filteredUsers = users.filter((user) =>
+            type === "students"
+              ? user.role === "student"
+              : user.role === "teacher"
+          );
+
+          if (filteredUsers.length === 0) {
+            container.innerHTML = `<p style="text-align: center; color: #888;">No ${type} found.</p>`;
+          } else {
+            container.innerHTML = filteredUsers
+              .map(
+                (user) => `
+    <div class="user-item">
+      <div class="user-avatar">${(user.full_name || user.email)
+        .charAt(0)
+        .toUpperCase()}</div>
+      <div class="user-details">
+        <h3>${user.full_name || "No Name"}</h3>
+        <p>${user.email}</p>
+      </div>
+      <div class="user-badge">${user.is_active ? "Active" : "Inactive"}</div>
+    </div>
+  `
+              )
+              .join("");
+          }
+        } catch (error) {
+          console.error("Error fetching users:", error);
+          container.innerHTML = `<p style="text-align: center; color: #f4d4d4;">Error loading users: ${error.message}</p>`;
+        }
+      }
+
+      // Close modal
+      function closeModal() {
+        document.getElementById("userListModal").classList.remove("show");
+      }
+
+      // Close modal when clicking outside
+      document
+        .getElementById("userListModal")
+        .addEventListener("click", function (e) {
+          if (e.target === this) {
+            closeModal();
+          }
+        });
+
+      // Add to DOMContentLoaded:
+      // Load user profile
+      loadUserProfile();
+
+      // Also add to logout buttons:
+      localStorage.removeItem("userFullName");
+    </script>
+  </body>
+</html>

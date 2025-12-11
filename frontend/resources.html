@@ -1,0 +1,1779 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Noor University - Resource Management</title>
+    <style>
+      /* Same CSS styles for consistency */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Georgia", "Times New Roman", serif;
+        background-color: #000;
+        color: #fff;
+        min-height: 100vh;
+        line-height: 1.6;
+      }
+
+      /* Navigation */
+      nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        background: linear-gradient(
+          180deg,
+          rgba(0, 0, 0, 0.98) 0%,
+          rgba(0, 0, 0, 0.95) 100%
+        );
+        padding: 20px 60px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        z-index: 1000;
+        border-bottom: 1px solid rgba(0, 97, 26, 0.3);
+        backdrop-filter: blur(10px);
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+      }
+
+      .logo-container {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+      }
+
+      .logo-container img {
+        width: 65px;
+        height: auto;
+      }
+
+      .logo {
+        width: 50px;
+        height: 50px;
+        background: #fff;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        color: #000;
+        font-size: 24px;
+      }
+
+      .logo-text {
+        display: flex;
+        flex-direction: column;
+        font-size: 11px;
+        line-height: 1.3;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      .nav-menu {
+        display: flex;
+        gap: 35px;
+        align-items: center;
+      }
+
+      .nav-menu a {
+        color: #fff;
+        text-decoration: none;
+        font-size: 14px;
+        transition: all 0.3s ease;
+        font-family: Arial, sans-serif;
+        position: relative;
+        padding: 8px 0;
+        cursor: pointer;
+      }
+
+      .nav-menu a::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background: #00611a;
+        transition: width 0.3s ease;
+      }
+
+      .nav-menu a:hover::after {
+        width: 100%;
+      }
+
+      .nav-menu a:hover {
+        color: #35bd5e;
+      }
+
+      /* Resources Page */
+      .resources-page {
+        padding-top: 100px;
+        min-height: 100vh;
+        background: #000;
+      }
+
+      .resources-header {
+        max-width: 1200px;
+        margin: 0 auto 40px;
+        padding: 0 40px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .resources-header h1 {
+        font-size: 38px;
+        letter-spacing: 1px;
+      }
+
+      .resources-list {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 40px 60px;
+      }
+
+      .resource-item {
+        background: linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.02) 0%,
+          rgba(255, 255, 255, 0.05) 100%
+        );
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 18px;
+        padding: 32px;
+        margin-bottom: 22px;
+        display: grid;
+        grid-template-columns: 1fr 2fr 1fr;
+        gap: 30px;
+        align-items: center;
+        transition: all 0.4s ease;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      }
+
+      .resource-item:hover {
+        background: linear-gradient(
+          135deg,
+          rgba(0, 97, 26, 0.03) 0%,
+          rgba(0, 97, 26, 0.06) 100%
+        );
+        border-color: rgba(0, 97, 26, 0.6);
+        transform: translateX(5px);
+        box-shadow: 0 8px 25px rgba(0, 97, 26, 0.25);
+      }
+
+      .resource-info h3 {
+        font-size: 22px;
+        margin-bottom: 8px;
+        font-family: Arial, sans-serif;
+      }
+
+      .resource-info p {
+        color: #888;
+        font-size: 13px;
+        font-family: Arial, sans-serif;
+      }
+
+      .resource-time {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .resource-time label {
+        font-size: 12px;
+        color: #888;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        font-family: Arial, sans-serif;
+      }
+
+      .resource-time input,
+      .resource-time select {
+        background: linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.03) 0%,
+          rgba(255, 255, 255, 0.06) 100%
+        );
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        border-radius: 10px;
+        padding: 12px 16px;
+        color: #fff;
+        font-size: 13px;
+        font-family: Arial, sans-serif;
+        transition: all 0.3s ease;
+      }
+
+      .resource-time input:focus,
+      .resource-time select:focus {
+        outline: none;
+        border-color: #00611a;
+        background: linear-gradient(
+          135deg,
+          rgba(0, 97, 26, 0.05) 0%,
+          rgba(0, 97, 26, 0.08) 100%
+        );
+        box-shadow: 0 0 0 3px rgba(0, 97, 26, 0.2);
+      }
+
+      .resource-time select option {
+        background: #000;
+        color: #fff;
+      }
+
+      .resource-actions {
+        display: flex;
+        justify-content: flex-end;
+      }
+
+      .btn-reserve {
+        padding: 13px 34px;
+        background: linear-gradient(135deg, #00611a 0%, #1b7b35 100%);
+        border: none;
+        border-radius: 10px;
+        color: #fff;
+        font-size: 13px;
+        text-transform: uppercase;
+        letter-spacing: 1.2px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-family: Arial, sans-serif;
+        box-shadow: 0 4px 15px rgba(0, 97, 26, 0.3);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .btn-reserve::before {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 0;
+        height: 0;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.2);
+        transform: translate(-50%, -50%);
+        transition: width 0.6s, height 0.6s;
+      }
+
+      .btn-reserve:hover::before {
+        width: 300px;
+        height: 300px;
+      }
+
+      .btn-reserve:hover {
+        background: linear-gradient(135deg, #1b7b35 0%, #389454 100%);
+        transform: translateY(-3px);
+        box-shadow: 0 6px 20px rgba(0, 97, 26, 0.5);
+      }
+
+      input[type="datetime-local"]:invalid {
+        border-color: #660000;
+        background: rgba(102, 0, 0, 0.1);
+      }
+
+      input[type="datetime-local"]:valid {
+        border-color: #00611a;
+      }
+
+      .btn-back {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 12px 24px;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 8px;
+        color: #fff;
+        font-size: 13px;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        font-family: Arial, sans-serif;
+        cursor: pointer;
+      }
+
+      .btn-back:hover {
+        background: rgba(255, 255, 255, 0.1);
+        border-color: #00611a;
+      }
+
+      /* Admin-specific styles for resources */
+      .admin-resource-actions {
+        display: flex;
+        gap: 10px;
+        justify-content: flex-end;
+        width: 100%;
+      }
+
+      .admin-resource-actions button {
+        flex: 1;
+        max-width: 150px;
+      }
+
+      .btn-edit {
+        padding: 13px 34px;
+        background: linear-gradient(135deg, #1a5f61 0%, #2a8a8d 100%);
+        border: none;
+        border-radius: 10px;
+        color: #fff;
+        font-size: 13px;
+        text-transform: uppercase;
+        letter-spacing: 1.2px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-family: Arial, sans-serif;
+        box-shadow: 0 4px 15px rgba(26, 95, 97, 0.3);
+      }
+
+      .btn-edit:hover {
+        background: linear-gradient(135deg, #2a8a8d 0%, #3bb0b3 100%);
+        transform: translateY(-3px);
+        box-shadow: 0 6px 20px rgba(26, 95, 97, 0.5);
+      }
+
+      .btn-add-resource {
+        padding: 12px 24px;
+        background: linear-gradient(135deg, #7a1a61 0%, #9d2a8a 100%);
+        border: none;
+        border-radius: 10px;
+        color: #fff;
+        font-size: 13px;
+        text-transform: uppercase;
+        letter-spacing: 1.2px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-family: Arial, sans-serif;
+        box-shadow: 0 4px 15px rgba(122, 26, 97, 0.3);
+        display: none; /* Hidden by default, shown for admin */
+      }
+
+      .btn-add-resource:hover {
+        background: linear-gradient(135deg, #9d2a8a 0%, #c03bb0 100%);
+        transform: translateY(-3px);
+        box-shadow: 0 6px 20px rgba(122, 26, 97, 0.5);
+      }
+
+      .btn-cancel {
+        padding: 13px 34px;
+        background: linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.05) 0%,
+          rgba(255, 255, 255, 0.1) 100%
+        );
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 10px;
+        color: #fff;
+        font-size: 13px;
+        text-transform: uppercase;
+        letter-spacing: 1.2px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-family: Arial, sans-serif;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      }
+
+      .btn-cancel:hover {
+        background: linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.1) 0%,
+          rgba(255, 255, 255, 0.15) 100%
+        );
+        border-color: rgba(255, 255, 255, 0.3);
+        transform: translateY(-3px);
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+      }
+
+      /* Form Styles */
+      input[type="text"],
+      input[type="number"],
+      input[type="datetime-local"],
+      select {
+        width: 100%;
+        background: linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.03) 0%,
+          rgba(255, 255, 255, 0.06) 100%
+        );
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        border-radius: 10px;
+        padding: 14px 16px;
+        color: #fff;
+        font-size: 14px;
+        font-family: Arial, sans-serif;
+        transition: all 0.3s ease;
+      }
+
+      input[type="text"]:focus,
+      input[type="number"]:focus,
+      input[type="datetime-local"]:focus,
+      select:focus {
+        outline: none;
+        border-color: #00611a;
+        background: linear-gradient(
+          135deg,
+          rgba(0, 97, 26, 0.05) 0%,
+          rgba(0, 97, 26, 0.08) 100%
+        );
+        box-shadow: 0 0 0 3px rgba(0, 97, 26, 0.2);
+      }
+
+      label {
+        display: block;
+        margin-bottom: 10px;
+        font-size: 13px;
+        color: #888;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        font-family: Arial, sans-serif;
+      }
+
+      .form-container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 40px;
+        background: linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.02) 0%,
+          rgba(255, 255, 255, 0.05) 100%
+        );
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 18px;
+      }
+
+      .form-group {
+        margin-bottom: 25px;
+      }
+
+      /* Success/Error Messages */
+      .success-message {
+        background: rgba(10, 66, 19, 0.2);
+        border: 1px solid #00611a;
+        color: #d4f4dc;
+        padding: 18px;
+        margin-bottom: 25px;
+        text-align: center;
+        font-size: 13px;
+        letter-spacing: 0.5px;
+        display: none;
+        font-family: Arial, sans-serif;
+        border-radius: 10px;
+      }
+
+      .success-message.show {
+        display: block;
+        animation: slideDown 0.4s ease;
+      }
+
+      .error-message {
+        background: rgba(102, 0, 0, 0.2);
+        border: 1px solid #660000;
+        color: #f4d4d4;
+        padding: 18px;
+        margin-bottom: 25px;
+        text-align: center;
+        font-size: 13px;
+        letter-spacing: 0.5px;
+        display: none;
+        font-family: Arial, sans-serif;
+        border-radius: 10px;
+      }
+
+      .error-message.show {
+        display: block;
+        animation: slideDown 0.4s ease;
+      }
+
+      @keyframes slideDown {
+        from {
+          opacity: 0;
+          transform: translateY(-15px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* Responsive */
+      @media (max-width: 968px) {
+        nav {
+          padding: 15px 30px;
+        }
+
+        .nav-menu {
+          gap: 20px;
+        }
+
+        .resource-item {
+          grid-template-columns: 1fr;
+        }
+
+        .resources-header {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 20px;
+        }
+
+        .resources-header h1 {
+          font-size: 28px;
+        }
+
+        .admin-resource-actions {
+          flex-direction: column;
+          gap: 10px;
+        }
+      }
+
+      @media (max-width: 600px) {
+        nav {
+          padding: 15px 20px;
+        }
+
+        .resources-list {
+          padding: 0 20px 40px;
+        }
+
+        .resources-header {
+          padding: 0 20px;
+        }
+
+        .form-container {
+          padding: 20px;
+        }
+      }
+
+      /* Profile Avatar */
+      .profile-container {
+        position: relative;
+      }
+
+      .profile-header {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .profile-name-display {
+        font-size: 14px;
+        color: #fff;
+        font-family: Arial, sans-serif;
+        font-weight: 500;
+      }
+
+      .profile-avatar {
+        width: 45px;
+        height: 45px;
+        background: linear-gradient(135deg, #00611a 0%, #1b7b35 100%);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 18px;
+        font-weight: bold;
+        color: #fff;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        border: 2px solid rgba(255, 255, 255, 0.2);
+      }
+
+      .profile-avatar:hover {
+        transform: scale(1.05);
+        border-color: #35bd5e;
+        box-shadow: 0 4px 15px rgba(0, 97, 26, 0.4);
+      }
+
+      .profile-dropdown {
+        position: absolute;
+        top: 60px;
+        right: 0;
+        background: linear-gradient(
+          135deg,
+          rgba(0, 0, 0, 0.95) 0%,
+          rgba(0, 0, 0, 0.98) 100%
+        );
+        border: 1px solid rgba(0, 97, 26, 0.3);
+        border-radius: 12px;
+        padding: 20px;
+        min-width: 280px;
+        display: none;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+        z-index: 1001;
+      }
+
+      .profile-dropdown.show {
+        display: block;
+        animation: slideDown 0.3s ease;
+      }
+
+      .profile-info {
+        padding-bottom: 15px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        margin-bottom: 15px;
+      }
+
+      .profile-info h3 {
+        font-size: 16px;
+        margin-bottom: 5px;
+        color: #35bd5e;
+      }
+
+      .profile-info p {
+        font-size: 13px;
+        color: #888;
+        font-family: Arial, sans-serif;
+      }
+
+      .profile-menu {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .profile-menu-item {
+        padding: 10px 15px;
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 8px;
+        color: #fff;
+        font-size: 13px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-family: Arial, sans-serif;
+        text-decoration: none;
+        display: block;
+      }
+
+      .profile-menu-item:hover {
+        background: rgba(0, 97, 26, 0.1);
+        border-color: #00611a;
+        color: #35bd5e;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Resource Management Page -->
+    <div class="resources-page">
+      <nav>
+        <div class="logo-container">
+          <div class="logo"><img src="/images/logo.png" /></div>
+          <div class="logo-text">
+            <span>Noor University</span>
+            <span style="font-size: 9px; opacity: 0.7"
+              >The Character of Success</span
+            >
+          </div>
+        </div>
+        <div style="flex: 1"></div>
+        <div class="profile-container">
+          <div class="profile-header">
+            <span class="profile-name-display" id="profileNameDisplay"
+              >Loading...</span
+            >
+            <div class="profile-avatar" onclick="toggleProfile()">U</div>
+          </div>
+          <div class="profile-dropdown" id="profileDropdown">
+            <div class="profile-info">
+              <h3 id="profileName">Loading...</h3>
+              <p id="profileEmail">Loading...</p>
+              <p id="profileRole">Loading...</p>
+            </div>
+            <div class="profile-menu">
+              <a href="#" id="back-to-dashboard" class="profile-menu-item"
+                >← Back to Dashboard</a
+              >
+              <a href="#" class="profile-menu-item logout-link">Logout</a>
+            </div>
+          </div>
+        </div>
+      </nav>
+
+      <div class="resources-header">
+        <h1 id="page-title">Resource Reservation</h1>
+        <div>
+          <a href="#" id="back-btn" class="btn-back">← Back to Dashboard</a>
+          <button
+            id="add-resource-btn"
+            class="btn-add-resource"
+            style="display: none"
+          >
+            + Add New Resource
+          </button>
+        </div>
+      </div>
+
+      <!-- Success Message Container -->
+      <div
+        id="message-container"
+        style="max-width: 1200px; margin: 0 auto 25px; padding: 0 40px"
+      ></div>
+
+      <!-- Resources List -->
+      <div class="resources-list" id="resources-list">
+        <div class="resource-item" data-resource-id="1">
+          <div class="resource-info">
+            <h3>Room 201</h3>
+            <p>
+              Capacity: 30 students • Projector available • Status: Available
+            </p>
+          </div>
+          <div class="resource-time">
+            <div>
+              <label>Start Time</label>
+              <input type="datetime-local" id="room201-start" />
+            </div>
+            <div>
+              <label>End Time</label>
+              <input type="datetime-local" id="room201-end" />
+            </div>
+          </div>
+          <div class="resource-actions">
+            <button class="btn-reserve" onclick="reserveResource('Room 201')">
+              Reserve
+            </button>
+          </div>
+        </div>
+
+        <div class="resource-item" data-resource-id="2">
+          <div class="resource-info">
+            <h3>Room 305</h3>
+            <p>
+              Capacity: 50 students • Smart board included • Status: Available
+            </p>
+          </div>
+          <div class="resource-time">
+            <div>
+              <label>Start Time</label>
+              <input type="datetime-local" id="room305-start" />
+            </div>
+            <div>
+              <label>End Time</label>
+              <input type="datetime-local" id="room305-end" />
+            </div>
+          </div>
+          <div class="resource-actions">
+            <button class="btn-reserve" onclick="reserveResource('Room 305')">
+              Reserve
+            </button>
+          </div>
+        </div>
+
+        <div class="resource-item" data-resource-id="3">
+          <div class="resource-info">
+            <h3>Study Hall</h3>
+            <p>
+              Capacity: 100 students • Quiet environment • Status: Available
+            </p>
+          </div>
+          <div class="resource-time">
+            <div>
+              <label>Start Time</label>
+              <input type="datetime-local" id="studyhall-start" />
+            </div>
+            <div>
+              <label>End Time</label>
+              <input type="datetime-local" id="studyhall-end" />
+            </div>
+          </div>
+          <div class="resource-actions">
+            <button class="btn-reserve" onclick="reserveResource('Study Hall')">
+              Reserve
+            </button>
+          </div>
+        </div>
+
+        <div class="resource-item" data-resource-id="4">
+          <div class="resource-info">
+            <h3>Computer Lab A</h3>
+            <p>
+              Capacity: 40 students • High-performance workstations • Status:
+              Available
+            </p>
+          </div>
+          <div class="resource-time">
+            <div>
+              <label>Start Time</label>
+              <input type="datetime-local" id="complab-start" />
+            </div>
+            <div>
+              <label>End Time</label>
+              <input type="datetime-local" id="complab-end" />
+            </div>
+          </div>
+          <div class="resource-actions">
+            <button
+              class="btn-reserve"
+              onclick="reserveResource('Computer Lab A')"
+            >
+              Reserve
+            </button>
+          </div>
+        </div>
+
+        <div class="resource-item" data-resource-id="5">
+          <div class="resource-info">
+            <h3>Conference Room</h3>
+            <p>
+              Capacity: 15 students • Video conferencing equipment • Status:
+              Available
+            </p>
+          </div>
+          <div class="resource-time">
+            <div>
+              <label>Start Time</label>
+              <input type="datetime-local" id="conference-start" />
+            </div>
+            <div>
+              <label>End Time</label>
+              <input type="datetime-local" id="conference-end" />
+            </div>
+          </div>
+          <div class="resource-actions">
+            <button
+              class="btn-reserve"
+              onclick="reserveResource('Conference Room')"
+            >
+              Reserve
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Add Resource Form (Hidden by default) -->
+      <div id="add-resource-form" style="display: none">
+        <div style="max-width: 800px; margin: 0 auto; padding: 0 40px 60px">
+          <div class="form-container">
+            <h2 style="margin-bottom: 30px; font-size: 28px">
+              Add New Resource
+            </h2>
+            <form id="resource-form" onsubmit="handleAddResource(event)">
+              <div class="form-group">
+                <label>Resource Name</label>
+                <input
+                  type="text"
+                  id="resource-name"
+                  required
+                  placeholder="e.g., Room 401"
+                />
+              </div>
+
+              <div class="form-group">
+                <label>Capacity</label>
+                <input
+                  type="number"
+                  id="resource-capacity"
+                  required
+                  placeholder="Number of students"
+                />
+              </div>
+
+              <div class="form-group">
+                <label>Equipment & Features</label>
+                <input
+                  type="text"
+                  id="resource-features"
+                  required
+                  placeholder="e.g., Projector, Smart board"
+                />
+              </div>
+
+              <div class="form-group">
+                <label>Resource Type</label>
+                <select id="resource-type" required>
+                  <option value="">Select type...</option>
+                  <option value="classroom">Classroom</option>
+                  <option value="lab">Laboratory</option>
+                  <option value="study">Study Space</option>
+                  <option value="meeting">Meeting Room</option>
+                  <option value="other">Other</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label>Status</label>
+                <select id="resource-status" required>
+                  <option value="available">Available</option>
+                  <option value="maintenance">Under Maintenance</option>
+                  <option value="reserved">Reserved</option>
+                  <option value="unavailable">Unavailable</option>
+                </select>
+              </div>
+
+              <div style="display: flex; gap: 15px; margin-top: 25px">
+                <button
+                  type="button"
+                  class="btn-cancel"
+                  onclick="cancelAddResource()"
+                  style="flex: 1"
+                >
+                  Cancel
+                </button>
+                <button type="submit" class="btn-reserve" style="flex: 1">
+                  Add Resource
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <!-- Edit Resource Form (Hidden by default) -->
+      <div id="edit-resource-form" style="display: none">
+        <div style="max-width: 800px; margin: 0 auto; padding: 0 40px 60px">
+          <div class="form-container">
+            <h2 style="margin-bottom: 30px; font-size: 28px">Edit Resource</h2>
+            <form id="edit-form" onsubmit="handleEditResource(event)">
+              <input type="hidden" id="edit-resource-id" />
+              <input type="hidden" id="edit-resource-original-name" />
+
+              <div class="form-group">
+                <label>Resource Name</label>
+                <input
+                  type="text"
+                  id="edit-resource-name"
+                  required
+                  placeholder="e.g., Room 401"
+                />
+              </div>
+
+              <div class="form-group">
+                <label>Capacity</label>
+                <input
+                  type="number"
+                  id="edit-resource-capacity"
+                  required
+                  placeholder="Number of students"
+                />
+              </div>
+
+              <div class="form-group">
+                <label>Equipment & Features</label>
+                <input
+                  type="text"
+                  id="edit-resource-features"
+                  required
+                  placeholder="e.g., Projector, Smart board"
+                />
+              </div>
+
+              <div class="form-group">
+                <label>Resource Type</label>
+                <select id="edit-resource-type" required>
+                  <option value="">Select type...</option>
+                  <option value="classroom">Classroom</option>
+                  <option value="lab">Laboratory</option>
+                  <option value="study">Study Space</option>
+                  <option value="meeting">Meeting Room</option>
+                  <option value="other">Other</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label>Status</label>
+                <select id="edit-resource-status" required>
+                  <option value="available">Available</option>
+                  <option value="maintenance">Under Maintenance</option>
+                  <option value="reserved">Reserved</option>
+                  <option value="unavailable">Unavailable</option>
+                </select>
+              </div>
+
+              <div style="display: flex; gap: 15px; margin-top: 25px">
+                <button
+                  type="button"
+                  class="btn-cancel"
+                  onclick="cancelEdit()"
+                  style="flex: 1"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="button"
+                  class="btn-reserve"
+                  onclick="deleteResource()"
+                  style="
+                    flex: 1;
+                    background: linear-gradient(
+                      135deg,
+                      #8b0000 0%,
+                      #dc143c 100%
+                    );
+                  "
+                >
+                  Delete
+                </button>
+                <button type="submit" class="btn-reserve" style="flex: 1">
+                  Save Changes
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Get user role
+      const params = new URLSearchParams(window.location.search);
+      const userRole =
+        params.get("role") || localStorage.getItem("userRole") || "student";
+      let resourceIdCounter = 6;
+
+      // Show success message
+
+      function showSuccessMessage(message, isError = false) {
+        const container = document.getElementById("message-container");
+        const messageDiv = document.createElement("div");
+        messageDiv.className = isError ? "error-message" : "success-message";
+        messageDiv.textContent = message;
+
+        container.innerHTML = "";
+        container.appendChild(messageDiv);
+        messageDiv.classList.add("show");
+
+        setTimeout(() => {
+          messageDiv.classList.remove("show");
+          setTimeout(() => {
+            messageDiv.remove();
+          }, 400);
+        }, 3000);
+      }
+
+      // Reserve resource function - WITH ERROR HANDLING
+      window.reserveResource = function (resourceName) {
+        const resourceId = resourceName.toLowerCase().replace(/\s+/g, "");
+        const startInput = document.getElementById(`${resourceId}-start`);
+        const endInput = document.getElementById(`${resourceId}-end`);
+
+        if (!startInput || !endInput) {
+          showSuccessMessage(
+            "Error: Could not find time inputs for this resource.",
+            true
+          );
+          return;
+        }
+
+        if (!startInput.value || !endInput.value) {
+          showSuccessMessage("Please select both start and end times.", true);
+          return;
+        }
+
+        // Check if end time is after start time
+        const startTime = new Date(startInput.value);
+        const endTime = new Date(endInput.value);
+
+        if (isNaN(startTime.getTime()) || isNaN(endTime.getTime())) {
+          showSuccessMessage("Error: Invalid date/time format.", true);
+          return;
+        }
+
+        if (endTime <= startTime) {
+          showSuccessMessage("End time must be after start time.", true);
+          return;
+        }
+
+        // Check if booking is at least 30 minutes
+        const duration = (endTime - startTime) / (1000 * 60); // in minutes
+        if (duration < 30) {
+          showSuccessMessage("Minimum reservation time is 30 minutes.", true);
+          return;
+        }
+
+        // Check if start time is in the past
+        const now = new Date();
+        if (startTime < now) {
+          showSuccessMessage("Cannot reserve resources in the past.", true);
+          return;
+        }
+
+        showSuccessMessage(
+          `Reservation for ${resourceName} confirmed! ${
+            userRole === "student"
+              ? "Your reservation is pending approval."
+              : ""
+          }`
+        );
+      };
+
+      // Parse resource info
+      function parseResourceInfo(resourceItem) {
+        const name = resourceItem.querySelector("h3").textContent;
+        const desc = resourceItem.querySelector(".resource-info p").textContent;
+        const capacityMatch = desc.match(/Capacity:\s*(\d+)/);
+        const parts = desc.split("•");
+
+        return {
+          name,
+          capacity: capacityMatch ? capacityMatch[1] : "0",
+          features: parts[1] ? parts[1].trim() : "",
+          status: parts[2]
+            ? parts[2].replace("Status:", "").trim().toLowerCase()
+            : "available",
+        };
+      }
+
+      // Edit resource (admin only)
+      window.editResource = function (resourceName) {
+        if (userRole !== "admin") {
+          showSuccessMessage("Only administrators can edit resources.", true);
+          return;
+        }
+
+        const resourceItem = Array.from(
+          document.querySelectorAll(".resource-item")
+        ).find((item) => item.querySelector("h3").textContent === resourceName);
+
+        if (!resourceItem) {
+          showSuccessMessage("Resource not found.", true);
+          return;
+        }
+
+        const currentResource = parseResourceInfo(resourceItem);
+        const resourceId = resourceItem.getAttribute("data-resource-id");
+
+        document.querySelector(".resources-list").style.display = "none";
+        document.getElementById("add-resource-form").style.display = "none";
+        document.getElementById("edit-resource-form").style.display = "block";
+        document.getElementById("add-resource-btn").style.display = "none";
+
+        document.getElementById("edit-resource-id").value = resourceId;
+        document.getElementById("edit-resource-original-name").value =
+          currentResource.name;
+        document.getElementById("edit-resource-name").value =
+          currentResource.name;
+        document.getElementById("edit-resource-capacity").value =
+          currentResource.capacity;
+        document.getElementById("edit-resource-features").value =
+          currentResource.features;
+        document.getElementById("edit-resource-status").value =
+          currentResource.status || "available";
+
+        showSuccessMessage(`Editing ${resourceName}...`);
+      };
+
+      // Handle edit form
+      document
+        .getElementById("edit-form")
+        ?.addEventListener("submit", function (e) {
+          e.preventDefault();
+
+          const resourceId = document.getElementById("edit-resource-id").value;
+          const newName = document.getElementById("edit-resource-name").value;
+          const capacity = document.getElementById(
+            "edit-resource-capacity"
+          ).value;
+          const features = document.getElementById(
+            "edit-resource-features"
+          ).value;
+          const status = document.getElementById("edit-resource-status").value;
+
+          showSuccessMessage(`Updating resource "${newName}"...`);
+
+          setTimeout(() => {
+            const resourceItem = document.querySelector(
+              `[data-resource-id="${resourceId}"]`
+            );
+            if (resourceItem) {
+              resourceItem.querySelector("h3").textContent = newName;
+              resourceItem.querySelector(
+                ".resource-info p"
+              ).textContent = `Capacity: ${capacity} student${
+                capacity > 1 ? "s" : ""
+              } • ${features} • Status: ${
+                status.charAt(0).toUpperCase() + status.slice(1)
+              }`;
+            }
+
+            showSuccessMessage(`Resource "${newName}" updated!`);
+            setTimeout(cancelEdit, 1500);
+          }, 1000);
+        });
+
+      // Handle add form
+      document
+        .getElementById("resource-form")
+        ?.addEventListener("submit", function (e) {
+          e.preventDefault();
+
+          const name = document.getElementById("resource-name").value;
+          const capacity = document.getElementById("resource-capacity").value;
+          const features = document.getElementById("resource-features").value;
+          const status = document.getElementById("resource-status").value;
+
+          showSuccessMessage(`Creating resource "${name}"...`);
+
+          setTimeout(() => {
+            const newResourceId = resourceIdCounter++;
+            const resourceNameId = name.toLowerCase().replace(/\s+/g, "");
+
+            // Create new resource HTML with proper onclick handlers
+            const newResourceHTML = `
+        <div class="resource-item" data-resource-id="${newResourceId}">
+          <div class="resource-info">
+            <h3>${name}</h3>
+            <p>Capacity: ${capacity} student${
+              capacity > 1 ? "s" : ""
+            } • ${features} • Status: ${
+              status.charAt(0).toUpperCase() + status.slice(1)
+            }</p>
+          </div>
+          <div class="resource-time">
+            <div><label>Start Time</label><input type="datetime-local" id="${resourceNameId}-start" /></div>
+            <div><label>End Time</label><input type="datetime-local" id="${resourceNameId}-end" /></div>
+          </div>
+          <div class="resource-actions">
+            ${
+              userRole === "admin"
+                ? `<div class="admin-resource-actions">
+                <button class="btn-edit" onclick="editResource('${name}')">Edit</button>
+                <button class="btn-reserve" onclick="reserveResource('${name}')">Reserve</button>
+              </div>`
+                : `<button class="btn-reserve" onclick="reserveResource('${name}')">Reserve</button>`
+            }
+          </div>
+        </div>`;
+
+            document
+              .getElementById("resources-list")
+              .insertAdjacentHTML("beforeend", newResourceHTML);
+            document.getElementById("resource-form").reset();
+
+            showSuccessMessage(`Resource "${name}" added!`);
+            setTimeout(cancelAddResource, 1500);
+          }, 1000);
+        });
+
+      // Cancel functions
+      function cancelAddResource() {
+        document.querySelector(".resources-list").style.display = "block";
+        document.getElementById("add-resource-form").style.display = "none";
+        document.getElementById("edit-resource-form").style.display = "none";
+        document.getElementById("add-resource-btn").style.display =
+          "inline-block";
+        document.getElementById("resource-form").reset();
+      }
+
+      function cancelEdit() {
+        document.querySelector(".resources-list").style.display = "block";
+        document.getElementById("add-resource-form").style.display = "none";
+        document.getElementById("edit-resource-form").style.display = "none";
+        document.getElementById("add-resource-btn").style.display =
+          "inline-block";
+        document.getElementById("edit-form").reset();
+      }
+
+      // Delete resource
+      window.deleteResource = function () {
+        const resourceId = document.getElementById("edit-resource-id").value;
+        const resourceName =
+          document.getElementById("edit-resource-name").value;
+
+        if (confirm(`Delete "${resourceName}"?`)) {
+          showSuccessMessage(`Deleting "${resourceName}"...`);
+          setTimeout(() => {
+            document
+              .querySelector(`[data-resource-id="${resourceId}"]`)
+              ?.remove();
+            showSuccessMessage(`"${resourceName}" deleted!`);
+            setTimeout(cancelEdit, 1500);
+          }, 1000);
+        }
+      };
+
+      // Toggle add form
+      window.toggleAddResourceForm = function () {
+        if (
+          document.getElementById("add-resource-form").style.display === "none"
+        ) {
+          document.querySelector(".resources-list").style.display = "none";
+          document.getElementById("add-resource-form").style.display = "block";
+          document.getElementById("edit-resource-form").style.display = "none";
+          document.getElementById("add-resource-btn").style.display = "none";
+        } else {
+          cancelAddResource();
+        }
+      };
+
+      // Back to dashboard from profile menu
+      document
+        .getElementById("back-to-dashboard")
+        ?.addEventListener("click", function (e) {
+          e.preventDefault();
+          window.location.href = `/dashboard.html?role=${userRole}`;
+        });
+
+      // Back button (big button)
+      document
+        .getElementById("back-btn")
+        .addEventListener("click", function (e) {
+          e.preventDefault();
+          window.location.href = `/dashboard.html?role=${userRole}`;
+        });
+
+      // Logout button
+      document
+        .querySelector(".logout-link")
+        .addEventListener("click", function (e) {
+          e.preventDefault();
+          localStorage.clear();
+          window.location.href = "/login.html";
+        });
+
+      // Initialize page - FIXED FOR ALL USER ROLES
+      document.addEventListener("DOMContentLoaded", function () {
+        console.log("User role:", userRole);
+
+        // Set page title
+        const pageTitle = document.getElementById("page-title");
+        if (userRole === "admin") {
+          pageTitle.textContent = "Resource Management";
+          document.getElementById("add-resource-btn").style.display =
+            "inline-block";
+
+          // Update buttons for admin - but keep reserve functionality
+          document.querySelectorAll(".resource-item").forEach((item) => {
+            const name = item.querySelector("h3").textContent;
+            item.querySelector(".resource-actions").innerHTML = `
+          <div class="admin-resource-actions">
+            <button class="btn-edit" onclick="editResource('${name}')">Edit</button>
+            <button class="btn-reserve" onclick="reserveResource('${name}')">Reserve</button>
+          </div>`;
+          });
+        } else if (userRole === "teacher") {
+          pageTitle.textContent = "Reserved Resources";
+          // For teachers, just ensure reserve buttons work
+          document
+            .querySelectorAll(".resource-item .btn-reserve")
+            .forEach((button) => {
+              const resourceName = button
+                .closest(".resource-item")
+                .querySelector("h3").textContent;
+              button.onclick = function () {
+                reserveResource(resourceName);
+              };
+            });
+        } else {
+          pageTitle.textContent = "Resource Reservation";
+          // For students, ensure all reserve buttons work
+          document
+            .querySelectorAll(".resource-item .btn-reserve")
+            .forEach((button) => {
+              const resourceName = button
+                .closest(".resource-item")
+                .querySelector("h3").textContent;
+              button.onclick = function () {
+                reserveResource(resourceName);
+              };
+            });
+        }
+
+        // Setup buttons
+        document
+          .getElementById("back-btn")
+          ?.addEventListener("click", goBackToDashboard);
+
+        const backLinks = document.querySelectorAll("#back-to-dashboard");
+        backLinks.forEach((link) => {
+          link.addEventListener("click", function (e) {
+            e.preventDefault();
+            goBackToDashboard();
+          });
+        });
+
+        if (document.getElementById("add-resource-btn")) {
+          document
+            .getElementById("add-resource-btn")
+            .addEventListener("click", toggleAddResourceForm);
+        }
+
+        // Setup logout button
+        document
+          .querySelector(".logout-link")
+          ?.addEventListener("click", function (e) {
+            e.preventDefault();
+            logout();
+          });
+
+        // Set min date/time for datetime inputs to prevent past reservations
+        const now = new Date();
+        const year = now.getFullYear();
+        const month = String(now.getMonth() + 1).padStart(2, "0");
+        const day = String(now.getDate()).padStart(2, "0");
+        const hours = String(now.getHours()).padStart(2, "0");
+        const minutes = String(now.getMinutes()).padStart(2, "0");
+        const minDateTime = `${year}-${month}-${day}T${hours}:${minutes}`;
+
+        document
+          .querySelectorAll('input[type="datetime-local"]')
+          .forEach((input) => {
+            input.min = minDateTime;
+          });
+      });
+
+      // Toggle profile dropdown
+      function toggleProfile() {
+        const dropdown = document.querySelector(".profile-dropdown");
+        dropdown.classList.toggle("show");
+      }
+
+      // Close profile when clicking outside
+      document.addEventListener("click", function (e) {
+        if (!e.target.closest(".profile-container")) {
+          document.querySelector(".profile-dropdown")?.classList.remove("show");
+        }
+      });
+
+      // Load user profile
+      async function loadUserProfile() {
+        const userEmail = localStorage.getItem("userEmail") || "user@noor.edu";
+        const userRole = localStorage.getItem("userRole") || "student";
+        let fullName = localStorage.getItem("userFullName") || "";
+
+        // Try to get user data from API
+        const token = localStorage.getItem("access_token");
+        if (token) {
+          try {
+            // Use AUTH_SERVICE environment variable - defaults to localhost for development
+            const authServiceUrl =
+              window.location.hostname === "localhost"
+                ? "http://localhost:8001"
+                : "http://auth-service:8001";
+
+            const response = await fetch(`${authServiceUrl}/api/auth/verify`, {
+              method: "GET",
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            });
+
+            if (response.ok) {
+              const userData = await response.json();
+              fullName = userData.full_name || fullName;
+              localStorage.setItem("userFullName", fullName);
+            } else {
+              console.error("Failed to verify user:", response.status);
+            }
+          } catch (error) {
+            console.error("Could not fetch user data:", error);
+          }
+        }
+
+        // If no full name, create one from email
+        if (!fullName) {
+          fullName = userEmail.split("@")[0].replace(/[._-]/g, " ");
+          fullName = fullName
+            .split(" ")
+            .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+            .join(" ");
+        }
+
+        // Get first letter for avatar
+        const firstLetter = fullName.charAt(0).toUpperCase();
+
+        // Update avatar
+        const avatar = document.querySelector(".profile-avatar");
+        if (avatar) avatar.textContent = firstLetter;
+
+        // Update name display
+        const nameDisplay = document.getElementById("profileNameDisplay");
+        if (nameDisplay) nameDisplay.textContent = fullName;
+
+        // Update profile info
+        const nameEl = document.getElementById("profileName");
+        const emailEl = document.getElementById("profileEmail");
+        const roleEl = document.getElementById("profileRole");
+
+        if (nameEl) nameEl.textContent = fullName;
+        if (emailEl) emailEl.textContent = userEmail;
+        if (roleEl)
+          roleEl.textContent =
+            userRole.charAt(0).toUpperCase() + userRole.slice(1);
+      }
+
+      // Call loadUserProfile when page loads
+      document.addEventListener("DOMContentLoaded", function () {
+        loadUserProfile();
+        // ... rest of existing DOMContentLoaded code
+      });
+
+      // Handle edit form
+      document
+        .getElementById("edit-form")
+        ?.addEventListener("submit", function (e) {
+          e.preventDefault();
+
+          try {
+            const resourceId =
+              document.getElementById("edit-resource-id").value;
+            const newName = document.getElementById("edit-resource-name").value;
+            const capacity = document.getElementById(
+              "edit-resource-capacity"
+            ).value;
+            const features = document.getElementById(
+              "edit-resource-features"
+            ).value;
+            const status = document.getElementById(
+              "edit-resource-status"
+            ).value;
+
+            if (!resourceId || !newName || !capacity || !features || !status) {
+              showSuccessMessage("Error: All fields are required.", true);
+              return;
+            }
+
+            if (capacity < 1) {
+              showSuccessMessage("Error: Capacity must be at least 1.", true);
+              return;
+            }
+
+            showSuccessMessage(`Updating resource "${newName}"...`);
+
+            setTimeout(() => {
+              const resourceItem = document.querySelector(
+                `[data-resource-id="${resourceId}"]`
+              );
+              if (resourceItem) {
+                resourceItem.querySelector("h3").textContent = newName;
+                resourceItem.querySelector(
+                  ".resource-info p"
+                ).textContent = `Capacity: ${capacity} student${
+                  capacity > 1 ? "s" : ""
+                } • ${features} • Status: ${
+                  status.charAt(0).toUpperCase() + status.slice(1)
+                }`;
+
+                showSuccessMessage(`Resource "${newName}" updated!`);
+                setTimeout(cancelEdit, 1500);
+              } else {
+                showSuccessMessage("Error: Resource not found.", true);
+              }
+            }, 1000);
+          } catch (error) {
+            showSuccessMessage(
+              `Error updating resource: ${error.message}`,
+              true
+            );
+          }
+        });
+
+      // Handle add form
+      document
+        .getElementById("resource-form")
+        ?.addEventListener("submit", function (e) {
+          e.preventDefault();
+
+          try {
+            const name = document.getElementById("resource-name").value;
+            const capacity = document.getElementById("resource-capacity").value;
+            const features = document.getElementById("resource-features").value;
+            const status = document.getElementById("resource-status").value;
+
+            if (!name || !capacity || !features || !status) {
+              showSuccessMessage("Error: All fields are required.", true);
+              return;
+            }
+
+            if (capacity < 1) {
+              showSuccessMessage("Error: Capacity must be at least 1.", true);
+              return;
+            }
+
+            showSuccessMessage(`Creating resource "${name}"...`);
+
+            setTimeout(() => {
+              const newResourceId = resourceIdCounter++;
+              const resourceNameId = name.toLowerCase().replace(/\s+/g, "");
+
+              // Create new resource HTML with proper onclick handlers
+              const newResourceHTML = `
+      <div class="resource-item" data-resource-id="${newResourceId}">
+        <div class="resource-info">
+          <h3>${name}</h3>
+          <p>Capacity: ${capacity} student${
+                capacity > 1 ? "s" : ""
+              } • ${features} • Status: ${
+                status.charAt(0).toUpperCase() + status.slice(1)
+              }</p>
+        </div>
+        <div class="resource-time">
+          <div><label>Start Time</label><input type="datetime-local" id="${resourceNameId}-start" /></div>
+          <div><label>End Time</label><input type="datetime-local" id="${resourceNameId}-end" /></div>
+        </div>
+        <div class="resource-actions">
+          ${
+            userRole === "admin"
+              ? `<div class="admin-resource-actions">
+              <button class="btn-edit" onclick="editResource('${name}')">Edit</button>
+              <button class="btn-reserve" onclick="reserveResource('${name}')">Reserve</button>
+            </div>`
+              : `<button class="btn-reserve" onclick="reserveResource('${name}')">Reserve</button>`
+          }
+        </div>
+      </div>`;
+
+              document
+                .getElementById("resources-list")
+                .insertAdjacentHTML("beforeend", newResourceHTML);
+              document.getElementById("resource-form").reset();
+
+              showSuccessMessage(`Resource "${name}" added!`);
+              setTimeout(cancelAddResource, 1500);
+            }, 1000);
+          } catch (error) {
+            showSuccessMessage(
+              `Error creating resource: ${error.message}`,
+              true
+            );
+          }
+        });
+
+      // Load resources from backend
+      async function loadResourcesFromBackend() {
+        const token = localStorage.getItem("access_token");
+        if (!token) {
+          console.log("No token found, using default resources");
+          return;
+        }
+
+        try {
+          // Use RESOURCE_SERVICE environment variable - defaults to localhost for development
+          const resourceServiceUrl =
+            window.location.hostname === "localhost"
+              ? "http://localhost:8003"
+              : "http://resource-service:8003";
+
+          const response = await fetch(`${resourceServiceUrl}/api/resources`, {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+
+          if (response.ok) {
+            const resources = await response.json();
+            console.log("Loaded resources from backend:", resources);
+            // TODO: Replace default resources with backend data if needed
+            // This is a placeholder for when you implement the resource service
+          } else {
+            console.error("Failed to load resources:", response.status);
+          }
+        } catch (error) {
+          console.error("Error loading resources from backend:", error);
+          // Continue with default resources on error
+        }
+      }
+
+      // Reserve resource function - WITH BACKEND INTEGRATION
+      window.reserveResource = async function (resourceName) {
+        const resourceId = resourceName.toLowerCase().replace(/\s+/g, "");
+        const startInput = document.getElementById(`${resourceId}-start`);
+        const endInput = document.getElementById(`${resourceId}-end`);
+
+        if (!startInput || !endInput) {
+          showSuccessMessage(
+            "Error: Could not find time inputs for this resource.",
+            true
+          );
+          return;
+        }
+
+        if (!startInput.value || !endInput.value) {
+          showSuccessMessage("Please select both start and end times.", true);
+          return;
+        }
+
+        // Check if end time is after start time
+        const startTime = new Date(startInput.value);
+        const endTime = new Date(endInput.value);
+
+        if (isNaN(startTime.getTime()) || isNaN(endTime.getTime())) {
+          showSuccessMessage("Error: Invalid date/time format.", true);
+          return;
+        }
+
+        if (endTime <= startTime) {
+          showSuccessMessage("End time must be after start time.", true);
+          return;
+        }
+
+        // Check if booking is at least 30 minutes
+        const duration = (endTime - startTime) / (1000 * 60); // in minutes
+        if (duration < 30) {
+          showSuccessMessage("Minimum reservation time is 30 minutes.", true);
+          return;
+        }
+
+        // Check if start time is in the past
+        const now = new Date();
+        if (startTime < now) {
+          showSuccessMessage("Cannot reserve resources in the past.", true);
+          return;
+        }
+
+        // Try to save reservation to backend
+        const token = localStorage.getItem("access_token");
+        if (token) {
+          try {
+            // Use RESERVE_SERVICE environment variable - defaults to localhost for development
+            const reserveServiceUrl =
+              window.location.hostname === "localhost"
+                ? "http://localhost:8007"
+                : "http://reserve-service:8007";
+
+            const response = await fetch(
+              `${reserveServiceUrl}/api/reservations`,
+              {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                  Authorization: `Bearer ${token}`,
+                },
+                body: JSON.stringify({
+                  resource_name: resourceName,
+                  start_time: startInput.value,
+                  end_time: endInput.value,
+                }),
+              }
+            );
+
+            if (response.ok) {
+              const data = await response.json();
+              console.log("Reservation saved:", data);
+              showSuccessMessage(
+                `Reservation for ${resourceName} confirmed! ${
+                  userRole === "student"
+                    ? "Your reservation is pending approval."
+                    : ""
+                }`
+              );
+
+              // Clear the inputs
+              startInput.value = "";
+              endInput.value = "";
+            } else {
+              const errorData = await response.json();
+              throw new Error(
+                errorData.detail || "Failed to create reservation"
+              );
+            }
+          } catch (error) {
+            console.error("Error creating reservation:", error);
+            showSuccessMessage(`Error: ${error.message}`, true);
+          }
+        } else {
+          // No token, just show success message without saving
+          showSuccessMessage(
+            `Reservation for ${resourceName} confirmed! ${
+              userRole === "student"
+                ? "Your reservation is pending approval."
+                : ""
+            }`
+          );
+        }
+      };
+    </script>
+  </body>
+</html>

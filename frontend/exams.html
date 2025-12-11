@@ -1,0 +1,1574 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Noor University - Exam System</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Georgia", "Times New Roman", serif;
+        background-color: #000;
+        color: #fff;
+        min-height: 100vh;
+        line-height: 1.6;
+      }
+
+      /* Navigation */
+      nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        background: linear-gradient(
+          180deg,
+          rgba(0, 0, 0, 0.98) 0%,
+          rgba(0, 0, 0, 0.95) 100%
+        );
+        padding: 20px 60px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        z-index: 1000;
+        border-bottom: 1px solid rgba(0, 97, 26, 0.3);
+        backdrop-filter: blur(10px);
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+      }
+
+      .logo-container {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+      }
+
+      .logo-container img {
+        width: 65px;
+        height: auto;
+      }
+
+      .logo {
+        width: 50px;
+        height: 50px;
+        background: #fff;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        color: #000;
+        font-size: 24px;
+      }
+
+      .logo-text {
+        display: flex;
+        flex-direction: column;
+        font-size: 11px;
+        line-height: 1.3;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      .profile-container {
+        position: relative;
+      }
+
+      .profile-header {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .profile-name-display {
+        font-size: 14px;
+        color: #fff;
+        font-family: Arial, sans-serif;
+        font-weight: 500;
+      }
+
+      .profile-avatar {
+        width: 45px;
+        height: 45px;
+        background: linear-gradient(135deg, #00611a 0%, #1b7b35 100%);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 18px;
+        font-weight: bold;
+        color: #fff;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        border: 2px solid rgba(255, 255, 255, 0.2);
+      }
+
+      .profile-avatar:hover {
+        transform: scale(1.05);
+        border-color: #35bd5e;
+        box-shadow: 0 4px 15px rgba(0, 97, 26, 0.4);
+      }
+
+      .profile-dropdown {
+        position: absolute;
+        top: 60px;
+        right: 0;
+        background: linear-gradient(
+          135deg,
+          rgba(0, 0, 0, 0.95) 0%,
+          rgba(0, 0, 0, 0.98) 100%
+        );
+        border: 1px solid rgba(0, 97, 26, 0.3);
+        border-radius: 12px;
+        padding: 20px;
+        min-width: 280px;
+        display: none;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+        z-index: 1001;
+      }
+
+      .profile-dropdown.show {
+        display: block;
+        animation: slideDown 0.3s ease;
+      }
+
+      .profile-info {
+        padding-bottom: 15px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        margin-bottom: 15px;
+      }
+
+      .profile-info h3 {
+        font-size: 16px;
+        margin-bottom: 5px;
+        color: #35bd5e;
+      }
+
+      .profile-info p {
+        font-size: 13px;
+        color: #888;
+        font-family: Arial, sans-serif;
+      }
+
+      .profile-menu {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .profile-menu-item {
+        padding: 10px 15px;
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 8px;
+        color: #fff;
+        font-size: 13px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-family: Arial, sans-serif;
+        text-decoration: none;
+        display: block;
+      }
+
+      .profile-menu-item:hover {
+        background: rgba(0, 97, 26, 0.1);
+        border-color: #00611a;
+        color: #35bd5e;
+      }
+
+      @keyframes slideDown {
+        from {
+          opacity: 0;
+          transform: translateY(-15px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* Page Container */
+      .exam-page {
+        padding-top: 100px;
+        min-height: 100vh;
+        background: #000;
+      }
+
+      .exam-header {
+        max-width: 1200px;
+        margin: 0 auto 40px;
+        padding: 0 40px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .exam-header h1 {
+        font-size: 38px;
+        letter-spacing: 1px;
+      }
+
+      .btn-back {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 12px 24px;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 8px;
+        color: #fff;
+        font-size: 13px;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        font-family: Arial, sans-serif;
+        cursor: pointer;
+      }
+
+      .btn-back:hover {
+        background: rgba(255, 255, 255, 0.1);
+        border-color: #00611a;
+      }
+
+      .btn-create-exam {
+        padding: 12px 24px;
+        background: linear-gradient(135deg, #7a1a61 0%, #9d2a8a 100%);
+        border: none;
+        border-radius: 10px;
+        color: #fff;
+        font-size: 13px;
+        text-transform: uppercase;
+        letter-spacing: 1.2px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-family: Arial, sans-serif;
+        box-shadow: 0 4px 15px rgba(122, 26, 97, 0.3);
+      }
+
+      .btn-create-exam:hover {
+        background: linear-gradient(135deg, #9d2a8a 0%, #c03bb0 100%);
+        transform: translateY(-3px);
+        box-shadow: 0 6px 20px rgba(122, 26, 97, 0.5);
+      }
+
+      /* Exam Grid */
+      .exams-grid {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 40px 60px;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+        gap: 25px;
+      }
+
+      .exam-card {
+        background: linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.02) 0%,
+          rgba(255, 255, 255, 0.05) 100%
+        );
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 18px;
+        padding: 30px;
+        transition: all 0.4s ease;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        cursor: pointer;
+      }
+
+      .exam-card:hover {
+        background: linear-gradient(
+          135deg,
+          rgba(0, 97, 26, 0.03) 0%,
+          rgba(0, 97, 26, 0.06) 100%
+        );
+        border-color: rgba(0, 97, 26, 0.6);
+        transform: translateY(-5px);
+        box-shadow: 0 8px 25px rgba(0, 97, 26, 0.25);
+      }
+
+      .exam-card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: start;
+        margin-bottom: 20px;
+      }
+
+      .exam-title {
+        font-size: 20px;
+        font-family: Arial, sans-serif;
+        color: #fff;
+        margin-bottom: 8px;
+      }
+
+      .exam-status {
+        padding: 6px 14px;
+        border-radius: 20px;
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        font-family: Arial, sans-serif;
+        font-weight: 600;
+      }
+
+      .status-active {
+        background: rgba(0, 97, 26, 0.2);
+        border: 1px solid #00611a;
+        color: #35bd5e;
+      }
+
+      .status-upcoming {
+        background: rgba(255, 193, 7, 0.2);
+        border: 1px solid #ffc107;
+        color: #ffc107;
+      }
+
+      .status-completed {
+        background: rgba(108, 117, 125, 0.2);
+        border: 1px solid #6c757d;
+        color: #adb5bd;
+      }
+
+      .exam-details {
+        font-size: 13px;
+        color: #888;
+        font-family: Arial, sans-serif;
+        line-height: 1.8;
+        margin-bottom: 20px;
+      }
+
+      .exam-details p {
+        margin-bottom: 8px;
+      }
+
+      .exam-footer {
+        display: flex;
+        gap: 10px;
+        padding-top: 20px;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .btn-primary {
+        flex: 1;
+        padding: 12px;
+        background: linear-gradient(135deg, #00611a 0%, #1b7b35 100%);
+        border: none;
+        border-radius: 8px;
+        color: #fff;
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-family: Arial, sans-serif;
+      }
+
+      .btn-primary:hover {
+        background: linear-gradient(135deg, #1b7b35 0%, #389454 100%);
+        transform: translateY(-2px);
+      }
+
+      .btn-secondary {
+        flex: 1;
+        padding: 12px;
+        background: linear-gradient(135deg, #1a5f61 0%, #2a8a8d 100%);
+        border: none;
+        border-radius: 8px;
+        color: #fff;
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-family: Arial, sans-serif;
+      }
+
+      .btn-secondary:hover {
+        background: linear-gradient(135deg, #2a8a8d 0%, #3bb0b3 100%);
+        transform: translateY(-2px);
+      }
+
+      /* Modal Styles */
+      .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.85);
+        z-index: 2000;
+        justify-content: center;
+        align-items: center;
+        overflow-y: auto;
+      }
+
+      .modal.show {
+        display: flex;
+      }
+
+      .modal-content {
+        background: linear-gradient(
+          135deg,
+          rgba(0, 0, 0, 0.95) 0%,
+          rgba(0, 0, 0, 0.98) 100%
+        );
+        border: 1px solid rgba(0, 97, 26, 0.3);
+        border-radius: 18px;
+        padding: 40px;
+        max-width: 700px;
+        width: 90%;
+        max-height: 85vh;
+        overflow-y: auto;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+        margin: 20px;
+      }
+
+      .modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 30px;
+      }
+
+      .modal-header h2 {
+        font-size: 28px;
+        color: #35bd5e;
+      }
+
+      .modal-close {
+        font-size: 32px;
+        color: #888;
+        cursor: pointer;
+        transition: color 0.3s ease;
+        background: none;
+        border: none;
+      }
+
+      .modal-close:hover {
+        color: #fff;
+      }
+
+      .form-group {
+        margin-bottom: 20px;
+      }
+
+      .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        font-size: 13px;
+        color: #888;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        font-family: Arial, sans-serif;
+      }
+
+      .form-group input,
+      .form-group textarea,
+      .form-group select {
+        width: 100%;
+        padding: 14px 16px;
+        background: linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.03) 0%,
+          rgba(255, 255, 255, 0.06) 100%
+        );
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        border-radius: 10px;
+        color: #fff;
+        font-size: 14px;
+        font-family: Arial, sans-serif;
+        transition: all 0.3s ease;
+      }
+
+      .form-group textarea {
+        min-height: 100px;
+        resize: vertical;
+      }
+
+      .form-group input:focus,
+      .form-group textarea:focus,
+      .form-group select:focus {
+        outline: none;
+        border-color: #00611a;
+        background: linear-gradient(
+          135deg,
+          rgba(0, 97, 26, 0.05) 0%,
+          rgba(0, 97, 26, 0.08) 100%
+        );
+        box-shadow: 0 0 0 3px rgba(0, 97, 26, 0.2);
+      }
+
+      /* Question Builder */
+      .questions-section {
+        margin-top: 30px;
+        padding-top: 30px;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .questions-section h3 {
+        font-size: 18px;
+        color: #35bd5e;
+        margin-bottom: 20px;
+        font-family: Arial, sans-serif;
+      }
+
+      .question-item {
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 12px;
+        padding: 20px;
+        margin-bottom: 15px;
+      }
+
+      .question-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 15px;
+      }
+
+      .btn-remove-question {
+        padding: 8px 16px;
+        background: linear-gradient(135deg, #8b0000 0%, #dc143c 100%);
+        border: none;
+        border-radius: 6px;
+        color: #fff;
+        font-size: 11px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-family: Arial, sans-serif;
+      }
+
+      .btn-add-question {
+        width: 100%;
+        padding: 14px;
+        background: rgba(0, 97, 26, 0.1);
+        border: 2px dashed #00611a;
+        border-radius: 10px;
+        color: #35bd5e;
+        font-size: 13px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-family: Arial, sans-serif;
+        margin-top: 15px;
+      }
+
+      .btn-add-question:hover {
+        background: rgba(0, 97, 26, 0.2);
+        border-color: #35bd5e;
+      }
+
+      .form-actions {
+        display: flex;
+        gap: 15px;
+        margin-top: 25px;
+      }
+
+      .btn-submit {
+        flex: 1;
+        padding: 14px;
+        background: linear-gradient(135deg, #00611a 0%, #1b7b35 100%);
+        border: none;
+        border-radius: 10px;
+        color: #fff;
+        font-size: 13px;
+        text-transform: uppercase;
+        letter-spacing: 1.2px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-family: Arial, sans-serif;
+      }
+
+      .btn-submit:hover {
+        background: linear-gradient(135deg, #1b7b35 0%, #389454 100%);
+        transform: translateY(-2px);
+      }
+
+      .btn-cancel {
+        flex: 1;
+        padding: 14px;
+        background: linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.05) 0%,
+          rgba(255, 255, 255, 0.1) 100%
+        );
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 10px;
+        color: #fff;
+        font-size: 13px;
+        text-transform: uppercase;
+        letter-spacing: 1.2px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-family: Arial, sans-serif;
+      }
+
+      .btn-cancel:hover {
+        background: linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.1) 0%,
+          rgba(255, 255, 255, 0.15) 100%
+        );
+        border-color: rgba(255, 255, 255, 0.3);
+      }
+
+      /* Exam Taking Interface */
+      .exam-taking {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 0 40px 60px;
+      }
+
+      .exam-info-banner {
+        background: linear-gradient(
+          135deg,
+          rgba(0, 97, 26, 0.1) 0%,
+          rgba(0, 97, 26, 0.2) 100%
+        );
+        border: 1px solid rgba(0, 97, 26, 0.3);
+        border-radius: 12px;
+        padding: 25px;
+        margin-bottom: 30px;
+      }
+
+      .exam-info-banner h2 {
+        font-size: 24px;
+        color: #35bd5e;
+        margin-bottom: 15px;
+        font-family: Arial, sans-serif;
+      }
+
+      .exam-timer {
+        font-size: 18px;
+        color: #ffc107;
+        font-weight: bold;
+        font-family: Arial, sans-serif;
+      }
+
+      .question-card {
+        background: linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.02) 0%,
+          rgba(255, 255, 255, 0.05) 100%
+        );
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 16px;
+        padding: 30px;
+        margin-bottom: 25px;
+      }
+
+      .question-number {
+        font-size: 14px;
+        color: #888;
+        font-family: Arial, sans-serif;
+        margin-bottom: 10px;
+      }
+
+      .question-text {
+        font-size: 18px;
+        color: #fff;
+        margin-bottom: 20px;
+        line-height: 1.6;
+      }
+
+      .answer-options {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .answer-option {
+        display: flex;
+        align-items: center;
+        padding: 15px;
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 10px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .answer-option:hover {
+        background: rgba(0, 97, 26, 0.05);
+        border-color: #00611a;
+      }
+
+      .answer-option input[type="radio"] {
+        margin-right: 12px;
+        width: 20px;
+        height: 20px;
+        cursor: pointer;
+      }
+
+      .answer-option label {
+        flex: 1;
+        cursor: pointer;
+        font-size: 15px;
+        font-family: Arial, sans-serif;
+      }
+
+      .btn-submit-exam {
+        width: 100%;
+        padding: 16px;
+        background: linear-gradient(135deg, #00611a 0%, #1b7b35 100%);
+        border: none;
+        border-radius: 10px;
+        color: #fff;
+        font-size: 14px;
+        text-transform: uppercase;
+        letter-spacing: 1.2px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-family: Arial, sans-serif;
+        margin-top: 20px;
+      }
+
+      .btn-submit-exam:hover {
+        background: linear-gradient(135deg, #1b7b35 0%, #389454 100%);
+        transform: translateY(-2px);
+      }
+
+      /* Messages */
+      .success-message,
+      .error-message {
+        padding: 18px;
+        margin-bottom: 25px;
+        text-align: center;
+        font-size: 13px;
+        letter-spacing: 0.5px;
+        display: none;
+        font-family: Arial, sans-serif;
+        border-radius: 10px;
+      }
+
+      .success-message {
+        background: rgba(10, 66, 19, 0.2);
+        border: 1px solid #00611a;
+        color: #d4f4dc;
+      }
+
+      .error-message {
+        background: rgba(102, 0, 0, 0.2);
+        border: 1px solid #660000;
+        color: #f4d4d4;
+      }
+
+      .success-message.show,
+      .error-message.show {
+        display: block;
+        animation: slideDown 0.4s ease;
+      }
+
+      /* Responsive */
+      @media (max-width: 968px) {
+        nav {
+          padding: 15px 30px;
+        }
+
+        .exams-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .exam-header {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 20px;
+        }
+      }
+
+      @media (max-width: 600px) {
+        nav {
+          padding: 15px 20px;
+        }
+
+        .exams-grid,
+        .exam-taking {
+          padding: 0 20px 40px;
+        }
+
+        .exam-header {
+          padding: 0 20px;
+        }
+
+        .modal-content {
+          padding: 20px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="exam-page">
+      <nav>
+        <div class="logo-container">
+          <div class="logo"><img src="/images/logo.png" /></div>
+          <div class="logo-text">
+            <span>Noor University</span>
+            <span style="font-size: 9px; opacity: 0.7"
+              >The Character of Success</span
+            >
+          </div>
+        </div>
+        <div style="flex: 1"></div>
+        <div class="profile-container">
+          <div class="profile-header">
+            <span class="profile-name-display" id="profileNameDisplay"
+              >Loading...</span
+            >
+            <div class="profile-avatar" onclick="toggleProfile()">U</div>
+          </div>
+          <div class="profile-dropdown" id="profileDropdown">
+            <div class="profile-info">
+              <h3 id="profileName">Loading...</h3>
+              <p id="profileEmail">Loading...</p>
+              <p id="profileRole">Loading...</p>
+            </div>
+            <div class="profile-menu">
+              <a href="#" id="back-to-dashboard" class="profile-menu-item"
+                >← Back to Dashboard</a
+              >
+              <a href="#" class="profile-menu-item logout-link">Logout</a>
+            </div>
+          </div>
+        </div>
+      </nav>
+
+      <!-- Exam List View -->
+      <div id="examListView">
+        <div class="exam-header">
+          <h1 id="pageTitle">Exams</h1>
+          <div>
+            <a href="#" id="backBtn" class="btn-back">← Back to Dashboard</a>
+            <button
+              id="createExamBtn"
+              class="btn-create-exam"
+              onclick="openCreateExamModal()"
+              style="display: none"
+            >
+              + Create New Exam
+            </button>
+          </div>
+        </div>
+
+        <div
+          id="messageContainer"
+          style="max-width: 1200px; margin: 0 auto 25px; padding: 0 40px"
+        ></div>
+
+        <div class="exams-grid" id="examsGrid">
+          <!-- Exams will be loaded here -->
+        </div>
+      </div>
+
+      <!-- Exam Taking View -->
+      <div id="examTakingView" style="display: none">
+        <div class="exam-taking">
+          <div class="exam-info-banner">
+            <h2 id="examTakingTitle">Exam Title</h2>
+            <p id="examTakingDescription">Exam description will appear here</p>
+            <div class="exam-timer" id="examTimer">Time Remaining: --:--</div>
+          </div>
+
+          <div id="questionsContainer">
+            <!-- Questions will be loaded here -->
+          </div>
+
+          <button class="btn-submit-exam" onclick="submitExam()">
+            Submit Exam
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Create/Edit Exam Modal -->
+    <div id="examModal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 id="modalTitle">Create New Exam</h2>
+          <button class="modal-close" onclick="closeExamModal()">
+            &times;
+          </button>
+        </div>
+        <div id="modalMessage"></div>
+        <form id="examForm" onsubmit="handleExamSubmit(event)">
+          <input type="hidden" id="examId" />
+
+          <div class="form-group">
+            <label>Exam Title</label>
+            <input
+              type="text"
+              id="examTitle"
+              required
+              placeholder="e.g., Midterm Exam - Data Structures"
+            />
+          </div>
+
+          <div class="form-group">
+            <label>Description</label>
+            <textarea
+              id="examDescription"
+              required
+              placeholder="Brief description of the exam..."
+            ></textarea>
+          </div>
+
+          <div class="form-group">
+            <label>Duration (minutes)</label>
+            <input
+              type="number"
+              id="examDuration"
+              required
+              min="1"
+              placeholder="e.g., 60"
+            />
+          </div>
+
+          <div class="form-group">
+            <label>Start Date & Time</label>
+            <input type="datetime-local" id="examStartTime" required />
+          </div>
+
+          <div class="questions-section">
+            <h3>Questions</h3>
+            <div id="questionsBuilder">
+              <!-- Questions will be added here -->
+            </div>
+            <button
+              type="button"
+              class="btn-add-question"
+              onclick="addQuestion()"
+            >
+              + Add Question
+            </button>
+          </div>
+
+          <div class="form-actions">
+            <button type="button" class="btn-cancel" onclick="closeExamModal()">
+              Cancel
+            </button>
+            <button type="submit" class="btn-submit">Create Exam</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <script>
+      const params = new URLSearchParams(window.location.search);
+      const userRole =
+        params.get("role") || localStorage.getItem("userRole") || "student";
+      let questionCounter = 0;
+      let currentExam = null;
+      let examTimer = null;
+      let examStartTime = null;
+      let studentAnswers = {};
+
+      // Sample exams data
+      let exams = [
+        {
+          id: 1,
+          title: "Data Structures Midterm",
+          description:
+            "Midterm examination covering arrays, linked lists, and trees",
+          duration: 60,
+          startTime: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(),
+          status: "upcoming",
+          createdBy: "Dr. Smith",
+          questions: [
+            {
+              id: 1,
+              text: "What is the time complexity of binary search?",
+              options: ["O(n)", "O(log n)", "O(n²)", "O(1)"],
+              correctAnswer: 1,
+            },
+            {
+              id: 2,
+              text: "Which data structure uses LIFO principle?",
+              options: ["Queue", "Stack", "Array", "Linked List"],
+              correctAnswer: 1,
+            },
+          ],
+        },
+        {
+          id: 2,
+          title: "Database Systems Final",
+          description:
+            "Comprehensive final exam on SQL, normalization, and transactions",
+          duration: 90,
+          startTime: new Date(Date.now() - 60 * 60 * 1000).toISOString(),
+          status: "active",
+          createdBy: "Dr. Johnson",
+          questions: [
+            {
+              id: 1,
+              text: "What does ACID stand for in databases?",
+              options: [
+                "Atomicity, Consistency, Isolation, Durability",
+                "Accuracy, Completeness, Integrity, Data",
+                "Access, Control, Identity, Definition",
+                "Algorithm, Cache, Index, Design",
+              ],
+              correctAnswer: 0,
+            },
+          ],
+        },
+        {
+          id: 3,
+          title: "Algorithms Quiz",
+          description: "Quick quiz on sorting and searching algorithms",
+          duration: 30,
+          startTime: new Date(
+            Date.now() - 2 * 24 * 60 * 60 * 1000
+          ).toISOString(),
+          status: "completed",
+          createdBy: "Dr. Williams",
+          questions: [],
+        },
+      ];
+
+      // Toggle profile dropdown
+      function toggleProfile() {
+        const dropdown = document.querySelector(".profile-dropdown");
+        dropdown.classList.toggle("show");
+      }
+
+      // Close profile when clicking outside
+      document.addEventListener("click", function (e) {
+        if (!e.target.closest(".profile-container")) {
+          document.querySelector(".profile-dropdown")?.classList.remove("show");
+        }
+      });
+
+      // Load user profile
+      async function loadUserProfile() {
+        const userEmail = localStorage.getItem("userEmail") || "user@noor.edu";
+        const userRole = localStorage.getItem("userRole") || "student";
+        let fullName = localStorage.getItem("userFullName") || "";
+
+        const token = localStorage.getItem("access_token");
+        if (token) {
+          try {
+            const authServiceUrl =
+              window.location.hostname === "localhost"
+                ? "http://localhost:8001"
+                : "http://auth-service:8001";
+
+            const response = await fetch(`${authServiceUrl}/api/auth/verify`, {
+              method: "GET",
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            });
+
+            if (response.ok) {
+              const userData = await response.json();
+              fullName = userData.full_name || fullName;
+              localStorage.setItem("userFullName", fullName);
+            }
+          } catch (error) {
+            console.error("Could not fetch user data:", error);
+          }
+        }
+
+        if (!fullName) {
+          fullName = userEmail.split("@")[0].replace(/[._-]/g, " ");
+          fullName = fullName
+            .split(" ")
+            .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+            .join(" ");
+        }
+
+        const firstLetter = fullName.charAt(0).toUpperCase();
+        const avatar = document.querySelector(".profile-avatar");
+        if (avatar) avatar.textContent = firstLetter;
+
+        const nameDisplay = document.getElementById("profileNameDisplay");
+        if (nameDisplay) nameDisplay.textContent = fullName;
+
+        const nameEl = document.getElementById("profileName");
+        const emailEl = document.getElementById("profileEmail");
+        const roleEl = document.getElementById("profileRole");
+
+        if (nameEl) nameEl.textContent = fullName;
+        if (emailEl) emailEl.textContent = userEmail;
+        if (roleEl)
+          roleEl.textContent =
+            userRole.charAt(0).toUpperCase() + userRole.slice(1);
+      }
+
+      // Show message
+      function showMessage(message, isError = false) {
+        const container = document.getElementById("messageContainer");
+        const messageDiv = document.createElement("div");
+        messageDiv.className = isError ? "error-message" : "success-message";
+        messageDiv.textContent = message;
+
+        container.innerHTML = "";
+        container.appendChild(messageDiv);
+        messageDiv.classList.add("show");
+
+        setTimeout(() => {
+          messageDiv.classList.remove("show");
+          setTimeout(() => messageDiv.remove(), 400);
+        }, 3000);
+      }
+
+      // Render exams list
+      function renderExams() {
+        const grid = document.getElementById("examsGrid");
+
+        // Filter exams based on role
+        let displayExams = exams;
+        if (userRole === "student") {
+          // Students see all exams
+          displayExams = exams;
+        } else if (userRole === "teacher") {
+          // Teachers see only their exams (in real app, filter by creator)
+          displayExams = exams;
+        } else if (userRole === "admin") {
+          // Admins see all exams
+          displayExams = exams;
+        }
+
+        if (displayExams.length === 0) {
+          grid.innerHTML = `
+          <div style="grid-column: 1/-1; text-align: center; padding: 60px 20px;">
+            <p style="font-size: 18px; color: #888; margin-bottom: 20px;">No exams available</p>
+            ${
+              userRole === "teacher"
+                ? '<button class="btn-create-exam" onclick="openCreateExamModal()">Create Your First Exam</button>'
+                : ""
+            }
+          </div>
+        `;
+          return;
+        }
+
+        grid.innerHTML = displayExams
+          .map((exam) => {
+            const startDate = new Date(exam.startTime);
+            const formattedDate = startDate.toLocaleDateString("en-US", {
+              year: "numeric",
+              month: "long",
+              day: "numeric",
+              hour: "2-digit",
+              minute: "2-digit",
+            });
+
+            let statusClass = "status-upcoming";
+            let statusText = "Upcoming";
+
+            if (exam.status === "active") {
+              statusClass = "status-active";
+              statusText = "Active Now";
+            } else if (exam.status === "completed") {
+              statusClass = "status-completed";
+              statusText = "Completed";
+            }
+
+            let buttons = "";
+            if (userRole === "student") {
+              if (exam.status === "active") {
+                buttons = `<button class="btn-primary" onclick="startExam(${exam.id})">Start Exam</button>`;
+              } else if (exam.status === "completed") {
+                buttons = `<button class="btn-secondary" onclick="viewResults(${exam.id})">View Results</button>`;
+              } else {
+                buttons = `<button class="btn-secondary" disabled>Not Started</button>`;
+              }
+            } else if (userRole === "teacher") {
+              buttons = `
+            <button class="btn-secondary" onclick="editExam(${exam.id})">Edit</button>
+            <button class="btn-primary" onclick="viewResults(${exam.id})">Results</button>
+          `;
+            } else if (userRole === "admin") {
+              buttons = `
+            <button class="btn-secondary" onclick="viewResults(${exam.id})">View Results</button>
+            <button class="btn-primary" onclick="viewExamDetails(${exam.id})">Details</button>
+          `;
+            }
+
+            return `
+          <div class="exam-card">
+            <div class="exam-card-header">
+              <div>
+                <h3 class="exam-title">${exam.title}</h3>
+                <p style="font-size: 12px; color: #888; font-family: Arial, sans-serif;">By ${exam.createdBy}</p>
+              </div>
+              <span class="exam-status ${statusClass}">${statusText}</span>
+            </div>
+            <div class="exam-details">
+              <p><strong>Description:</strong> ${exam.description}</p>
+              <p><strong>Duration:</strong> ${exam.duration} minutes</p>
+              <p><strong>Start Time:</strong> ${formattedDate}</p>
+              <p><strong>Questions:</strong> ${exam.questions.length}</p>
+            </div>
+            <div class="exam-footer">
+              ${buttons}
+            </div>
+          </div>
+        `;
+          })
+          .join("");
+      }
+
+      // Open create exam modal
+      function openCreateExamModal() {
+        document.getElementById("modalTitle").textContent = "Create New Exam";
+        document.getElementById("examForm").reset();
+        document.getElementById("examId").value = "";
+        document.getElementById("questionsBuilder").innerHTML = "";
+        questionCounter = 0;
+
+        // Add one default question
+        addQuestion();
+
+        document.getElementById("examModal").classList.add("show");
+      }
+
+      // Close exam modal
+      function closeExamModal() {
+        document.getElementById("examModal").classList.remove("show");
+        document.getElementById("modalMessage").innerHTML = "";
+      }
+
+      // Add question to exam form
+      function addQuestion() {
+        questionCounter++;
+        const container = document.getElementById("questionsBuilder");
+        const questionDiv = document.createElement("div");
+        questionDiv.className = "question-item";
+        questionDiv.id = `question-${questionCounter}`;
+        questionDiv.innerHTML = `
+        <div class="question-header">
+          <h4 style="color: #35bd5e; font-family: Arial, sans-serif;">Question ${questionCounter}</h4>
+          <button type="button" class="btn-remove-question" onclick="removeQuestion(${questionCounter})">Remove</button>
+        </div>
+        <div class="form-group">
+          <label>Question Text</label>
+          <textarea name="question-text-${questionCounter}" required placeholder="Enter your question..."></textarea>
+        </div>
+        <div class="form-group">
+          <label>Option A</label>
+          <input type="text" name="option-a-${questionCounter}" required placeholder="First option" />
+        </div>
+        <div class="form-group">
+          <label>Option B</label>
+          <input type="text" name="option-b-${questionCounter}" required placeholder="Second option" />
+        </div>
+        <div class="form-group">
+          <label>Option C</label>
+          <input type="text" name="option-c-${questionCounter}" required placeholder="Third option" />
+        </div>
+        <div class="form-group">
+          <label>Option D</label>
+          <input type="text" name="option-d-${questionCounter}" required placeholder="Fourth option" />
+        </div>
+        <div class="form-group">
+          <label>Correct Answer</label>
+          <select name="correct-answer-${questionCounter}" required>
+            <option value="">Select correct answer...</option>
+            <option value="0">Option A</option>
+            <option value="1">Option B</option>
+            <option value="2">Option C</option>
+            <option value="3">Option D</option>
+          </select>
+        </div>
+      `;
+        container.appendChild(questionDiv);
+      }
+
+      // Remove question from exam form
+      function removeQuestion(id) {
+        const questionDiv = document.getElementById(`question-${id}`);
+        if (questionDiv) {
+          questionDiv.remove();
+        }
+      }
+
+      // Handle exam form submit
+      async function handleExamSubmit(event) {
+        event.preventDefault();
+
+        try {
+          const title = document.getElementById("examTitle").value.trim();
+          const description = document
+            .getElementById("examDescription")
+            .value.trim();
+          const duration = parseInt(
+            document.getElementById("examDuration").value
+          );
+          const startTime = document.getElementById("examStartTime").value;
+
+          // Collect questions
+          const questions = [];
+          const questionItems = document.querySelectorAll(".question-item");
+
+          questionItems.forEach((item, index) => {
+            const id = item.id.split("-")[1];
+            const text = item.querySelector(
+              `[name="question-text-${id}"]`
+            ).value;
+            const options = [
+              item.querySelector(`[name="option-a-${id}"]`).value,
+              item.querySelector(`[name="option-b-${id}"]`).value,
+              item.querySelector(`[name="option-c-${id}"]`).value,
+              item.querySelector(`[name="option-d-${id}"]`).value,
+            ];
+            const correctAnswer = parseInt(
+              item.querySelector(`[name="correct-answer-${id}"]`).value
+            );
+
+            questions.push({
+              id: index + 1,
+              text,
+              options,
+              correctAnswer,
+            });
+          });
+
+          if (questions.length === 0) {
+            showMessage("Please add at least one question", true);
+            return;
+          }
+
+          const newExam = {
+            id: exams.length + 1,
+            title,
+            description,
+            duration,
+            startTime: new Date(startTime).toISOString(),
+            status: "upcoming",
+            createdBy: localStorage.getItem("userFullName") || "Professor",
+            questions,
+          };
+
+          exams.push(newExam);
+          renderExams();
+          closeExamModal();
+          showMessage(`Exam "${title}" created successfully!`);
+        } catch (error) {
+          console.error("Error creating exam:", error);
+          showMessage("Error creating exam. Please try again.", true);
+        }
+      }
+
+      // Start exam (Student)
+      function startExam(examId) {
+        const exam = exams.find((e) => e.id === examId);
+        if (!exam) {
+          showMessage("Exam not found", true);
+          return;
+        }
+
+        if (exam.status !== "active") {
+          showMessage("This exam is not currently active", true);
+          return;
+        }
+
+        currentExam = exam;
+        studentAnswers = {};
+
+        // Hide exam list, show exam taking view
+        document.getElementById("examListView").style.display = "none";
+        document.getElementById("examTakingView").style.display = "block";
+
+        // Populate exam info
+        document.getElementById("examTakingTitle").textContent = exam.title;
+        document.getElementById("examTakingDescription").textContent =
+          exam.description;
+
+        // Render questions
+        const container = document.getElementById("questionsContainer");
+        container.innerHTML = exam.questions
+          .map(
+            (q, index) => `
+        <div class="question-card">
+          <div class="question-number">Question ${index + 1} of ${
+              exam.questions.length
+            }</div>
+          <div class="question-text">${q.text}</div>
+          <div class="answer-options">
+            ${q.options
+              .map(
+                (option, optIndex) => `
+              <div class="answer-option">
+                <input type="radio" name="question-${q.id}" id="q${q.id}-opt${optIndex}" value="${optIndex}" onchange="saveAnswer(${q.id}, ${optIndex})">
+                <label for="q${q.id}-opt${optIndex}">${option}</label>
+              </div>
+            `
+              )
+              .join("")}
+          </div>
+        </div>
+      `
+          )
+          .join("");
+
+        // Start timer
+        examStartTime = Date.now();
+        startExamTimer(exam.duration);
+      }
+
+      // Start exam timer
+      function startExamTimer(durationMinutes) {
+        const endTime = examStartTime + durationMinutes * 60 * 1000;
+
+        examTimer = setInterval(() => {
+          const now = Date.now();
+          const remaining = endTime - now;
+
+          if (remaining <= 0) {
+            clearInterval(examTimer);
+            submitExam(true); // Auto-submit when time runs out
+            return;
+          }
+
+          const minutes = Math.floor(remaining / 60000);
+          const seconds = Math.floor((remaining % 60000) / 1000);
+
+          document.getElementById(
+            "examTimer"
+          ).textContent = `Time Remaining: ${minutes}:${seconds
+            .toString()
+            .padStart(2, "0")}`;
+
+          // Change color when less than 5 minutes
+          if (minutes < 5) {
+            document.getElementById("examTimer").style.color = "#dc143c";
+          }
+        }, 1000);
+      }
+
+      // Save student answer
+      function saveAnswer(questionId, optionIndex) {
+        studentAnswers[questionId] = optionIndex;
+      }
+
+      // Submit exam
+      function submitExam(autoSubmit = false) {
+        if (!autoSubmit) {
+          if (
+            !confirm(
+              "Are you sure you want to submit your exam? You cannot change your answers after submission."
+            )
+          ) {
+            return;
+          }
+        }
+
+        // Clear timer
+        if (examTimer) {
+          clearInterval(examTimer);
+        }
+
+        // Calculate score
+        let correct = 0;
+        currentExam.questions.forEach((q) => {
+          if (studentAnswers[q.id] === q.correctAnswer) {
+            correct++;
+          }
+        });
+
+        const score = Math.round(
+          (correct / currentExam.questions.length) * 100
+        );
+
+        // Show results
+        alert(
+          `Exam Submitted!\n\nYour Score: ${score}%\nCorrect Answers: ${correct}/${currentExam.questions.length}`
+        );
+
+        // Return to exam list
+        document.getElementById("examTakingView").style.display = "none";
+        document.getElementById("examListView").style.display = "block";
+
+        showMessage(`Exam submitted! Your score: ${score}%`);
+      }
+
+      // Edit exam (Teacher)
+      function editExam(examId) {
+        const exam = exams.find((e) => e.id === examId);
+        if (!exam) {
+          showMessage("Exam not found", true);
+          return;
+        }
+
+        // TODO: Implement edit functionality
+        showMessage("Edit functionality coming soon!", false);
+      }
+
+      // View results (Teacher/Admin)
+      function viewResults(examId) {
+        const exam = exams.find((e) => e.id === examId);
+        if (!exam) {
+          showMessage("Exam not found", true);
+          return;
+        }
+
+        // Mock results data
+        alert(
+          `Results for: ${exam.title}\n\nTotal Students: 25\nAverage Score: 78%\nHighest Score: 95%\nLowest Score: 55%`
+        );
+      }
+
+      // View exam details (Admin)
+      function viewExamDetails(examId) {
+        const exam = exams.find((e) => e.id === examId);
+        if (!exam) {
+          showMessage("Exam not found", true);
+          return;
+        }
+
+        alert(
+          `Exam Details:\n\nTitle: ${exam.title}\nCreated By: ${exam.createdBy}\nDuration: ${exam.duration} minutes\nQuestions: ${exam.questions.length}\nStatus: ${exam.status}`
+        );
+      }
+
+      // Initialize page
+      document.addEventListener("DOMContentLoaded", function () {
+        console.log("User role:", userRole);
+
+        loadUserProfile();
+        renderExams();
+
+        // Set page title based on role
+        const pageTitle = document.getElementById("pageTitle");
+        if (userRole === "teacher") {
+          pageTitle.textContent = "My Exams";
+          document.getElementById("createExamBtn").style.display =
+            "inline-block";
+        } else if (userRole === "admin") {
+          pageTitle.textContent = "All Exams";
+        } else {
+          pageTitle.textContent = "Available Exams";
+        }
+
+        // Back to dashboard
+        document
+          .getElementById("back-to-dashboard")
+          ?.addEventListener("click", function (e) {
+            e.preventDefault();
+            window.location.href = `dashboard.html?role=${userRole}`;
+          });
+
+        document
+          .getElementById("backBtn")
+          ?.addEventListener("click", function (e) {
+            e.preventDefault();
+            window.location.href = `dashboard.html?role=${userRole}`;
+          });
+
+        // Logout
+        document
+          .querySelector(".logout-link")
+          ?.addEventListener("click", function (e) {
+            e.preventDefault();
+            localStorage.clear();
+            window.location.href = "index.html";
+          });
+      });
+    </script>
+  </body>
+</html>
